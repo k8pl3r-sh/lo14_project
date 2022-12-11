@@ -10,12 +10,11 @@ if [ "$1" == "-connect" ]; then
 	./user.sh $2 $3
 
 elif [ "$1" == "-admin" ]; then
-	echo "admin"
+	echo "####### ADMINISTRATION #######"
 	read -p 'Username: ' uservar
 	read -sp 'Password: ' passvar
 
 	if [[ "$uservar"=="admin" && "$(echo "$passvar" | md5sum )"=="$passwd" ]]; then
 		./admin.sh
 	fi
-
 fi
