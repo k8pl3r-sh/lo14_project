@@ -19,7 +19,6 @@ Options:
 	`user <user>`
 		`-a <hostname1 hostname2 ...>`
 		`-r <hostname ...>`
-
 	`wall`
 		`msg`
 		`-n msg`
