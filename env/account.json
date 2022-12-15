@@ -1,7 +1,12 @@
-{
-  "user": {
+[
+  {
     "name": "john",
     "passwd": "x",
     "permissions": {}
+  },
+  {
+    "name": "admin",
+    "passwd": "",
+    "permissions": {}
   }
-}
+]
