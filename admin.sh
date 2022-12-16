@@ -44,7 +44,7 @@ wall () {
 	echo "DEBUG: wall function"
 }
 
-afinger () { # $1 user
+afinger () { # $1 user to edit infos of a user
 	echo "DEBUG: afinger function"
 }
 
