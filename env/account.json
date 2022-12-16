@@ -1,12 +1,12 @@
 [
   {
     "name": "john",
-    "passwd": "x",
+    "passwd": "",
     "permissions": {}
   },
   {
     "name": "paul",
-    "passwd": "x",
+    "passwd": "",
     "permissions": {}
   }
 ]
