@@ -5,8 +5,8 @@
     "permissions": {}
   },
   {
-    "name": "admin",
-    "passwd": "",
+    "name": "paul",
+    "passwd": "x",
     "permissions": {}
   }
 ]

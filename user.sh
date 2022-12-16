@@ -4,16 +4,13 @@ machine=$2
 user=$3
 json_file="/env/account.json"
 
-
-userCheck=$(jq -r '"$3"' /mnt/d/Stockage/Dev/LO14/lo14_project/env/account.json) #récupération du user dans le json
+#REGEX jq pour accèder à l'array : .[].name
+userCheck=$(jq '"john"' env/account.json) #récupération du user dans le json
 echo "$userCheck"
-
-pwd=$(pwd)
-
-echo "  $pwd"
+echo "$user"
 
 if [ "$user" == "$userCheck" ]; then #vérification du user
-    echo "user found"
+    echo "user $user found"
 else
     echo "user not found"
 fi

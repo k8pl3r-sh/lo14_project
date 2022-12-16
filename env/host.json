@@ -1,10 +1,8 @@
 [
   {
-    "name": "",
-    "passwd": "x"
+    "name": "machine1"
   },
   {
-    "name": "admin",
-    "passwd": ""
+    "name": "machine2"
   }
 ]
