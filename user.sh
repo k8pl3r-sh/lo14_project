@@ -1,29 +1,27 @@
 #!/bin/bash
 echo  "####### USER #######"
+
+# Variables
 machine=$2
 user=$3
 json_file="env/account.json"
-userCheck=$(jq '"john"' $json_file)
 iMax=$(jq 'length' $json_file);
 
-
-for ((i=1; i<=$iMax; i++))
+# Check if user is in json file
+for ((i=0; i<=$iMax; i++))
 do
-   userCheck=$(jq '[].name' $json_file)
-   echo "yo"
-
-   if [ "$userCheck" == "$user" ] 
+   userQuoted=$(jq '.['$i'].name' $json_file)
+   userCheck="${userQuoted:1:-1}" # remove quotes
+   if [ "$userCheck" = "$user" ] 
    then
-      echo "Bonjour Paul"
+      echo "Bonjour John"
    else
-      echo "Je ne connais pas ton nom"
+      continue
    fi
 done
 
-#REGEX jq pour accèder à l'array : .[].name
- #récupération du user dans le json
-echo "$userCheck"
-echo "$user"
+
+
 
 #echo "$2@$3" #Nom de prompt a mettre 
 #PS1="$user@$machine:~$" # set the prompt
