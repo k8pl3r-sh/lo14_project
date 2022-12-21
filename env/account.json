@@ -2,11 +2,13 @@
   {
     "name": "john",
     "passwd": "",
-    "permissions": {}
+    "permissions": [],
+    "lastConnected": "2015-01-01 00:00:00"
   },
   {
     "name": "paul",
     "passwd": "",
-    "permissions": {}
+    "permissions": ["machine1", "machine2"],
+    "lastConnected": "2015-01-01 00:00:00"
   }
 ]
