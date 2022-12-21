@@ -5,39 +5,52 @@ echo  "####### USER #######"
 machine=$2
 user=$3
 
-# Check if user is in json file
-for ((i=0; i<=$(jq 'length' env/account.json); i++))
-do
-   userQuoted=$(jq '.['$i'].name' env/account.json)
-   userCheck="${userQuoted:1:-1}"
+while true; do
+  # Demande à l'utilisateur de saisir une chaîne de caractères
+  read -p "Entrez une chaîne de caractères : " input
 
-   if [ "$userCheck" = "$user" ]; then 
-
-      for ((j=0; j<=$(jq '.['$i'].permissions | length' env/account.json); j++))
-      do
-         permQuoted=$(jq '.['$i'].permissions['$j']' env/account.json)
-         permCheck="${permQuoted:1:-1}"
-
-         if [ "$permCheck" = "$machine" ]; then # TODO : 2e condition ou il doit rentrer le mot de passe + vérification du mot de passe en md5
-            echo "Bonjour $user" 
-            read -sp 'Password: ' passvar
-            passQuoted=$(jq '.['$i'].passwd' env/account.json)
-            passCheck="${passQuoted:1:-1}"
-               if [ "$(echo "$passvar" | md5sum )" == "$passCheck" ]; then
-                  echo "Mot de passe correct"
-                  exit 0
-               else
-                  echo "Mot de passe incorrect"
-                  exit 1
-               fi
-         fi    
-      done
-   else
-      continue
-   fi
+  # Utilise un switch pour traiter les différentes chaînes de caractères possibles
+  case $input in
+    "who")
+      # Traitement pour la chaîne "who"
+      echo "Vous avez entré la chaîne 'who'"
+      ;;
+    "rusers")
+      # Traitement pour la chaîne "rusers"
+      echo "Vous avez entré la chaîne 'rusers'"
+      ;;
+    "rhost")
+      # Traitement pour la chaîne "rhost"
+      echo "Vous avez entré la chaîne 'rhost'"
+      ;;
+    "rconnect")
+      # Traitement pour la chaîne "rconnect"
+      echo "Vous avez entré la chaîne 'rconnect'"
+      ;;
+    "su")
+      # Traitement pour la chaîne "su"
+      echo "Vous avez entré la chaîne 'su'"
+      ;;
+    "passwd")
+      # Traitement pour la chaîne "passwd"
+      echo "Vous avez entré la chaîne 'passwd'"
+      ;;
+    "finger")
+      # Traitement pour la chaîne "finger"
+      echo "Vous avez entré la chaîne 'finger'"
+      ;;
+    "write")
+      # Traitement pour la chaîne "write"
+      echo "Vous avez entré la chaîne 'write'"
+      ;;
+    "exit")
+      # Traitement pour la chaîne "exit"
+      echo "Vous avez entré la chaîne 'exit'"
+      break
+      ;;
+    *)
+      # Exécute la chaîne de caractères entrée par l'utilisateur
+      eval $input
+      ;;
+  esac
 done
-
-#if [[ "$uservar"=="admin" && "$(echo "$passvar" | md5sum )"=="$passwd" ]]; then
-
-#echo "$2@$3" #Nom de prompt a mettre 
-#PS1="$user@$machine:~$" # set the prompt
