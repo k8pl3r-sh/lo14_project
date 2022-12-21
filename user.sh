@@ -6,10 +6,8 @@ machine=$2
 user=$3
 
 while true; do
-  # Demande à l'utilisateur de saisir une chaîne de caractères
-  read -p "Entrez une chaîne de caractères : " input
+  read -p "$user@$machine >" input
 
-  # Utilise un switch pour traiter les différentes chaînes de caractères possibles
   case $input in
     "who")
       # Traitement pour la chaîne "who"
@@ -49,7 +47,7 @@ while true; do
       break
       ;;
     *)
-      # Exécute la chaîne de caractères entrée par l'utilisateur
+      # Exécute la chaîne de caractères entrée par l'utilisateur par la machine basse
       eval $input
       ;;
   esac
