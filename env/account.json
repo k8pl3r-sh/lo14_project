@@ -7,7 +7,7 @@
   },
   {
     "name": "paul",
-    "passwd": "",
+    "passwd": "d8e8fca2dc0f896fd7cb4cb0031ba249  -",
     "permissions": ["machine1", "machine2"],
     "lastConnected": "2015-01-01 00:00:00"
   }

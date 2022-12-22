@@ -2,12 +2,11 @@
 echo  "####### USER #######"
 
 # Variables
-machine=$2
-user=$3
+machine=$1
+user=$2
 
 while true; do
-  read -p "$user@$machine >" input
-
+  read -p "$user@$machine > " input
   case $input in
     "who")
       # Traitement pour la chaîne "who"
