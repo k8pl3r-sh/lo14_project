@@ -22,16 +22,14 @@ if [ "$1" == "-connect" ]; then
          		permCheck="${permQuoted:1:-1}"
          		if [ "$permCheck" = "$machine" ]; then 
             		echo "Bonjour $user" 
-            		read -sp 'Password: ' passvar
+            		read -sp 'Mot de passe : ' passvar
             		passQuoted=$(jq '.['$i'].passwd' env/account.json)
             		passCheck="${passQuoted:1:-1}"	
-               			if [ "$(echo "$passvar" | md5sum )" == "$passCheck" ]; then # TODO : 2e condition ou il doit rentrer le mot de passe + vérification du mot de passe en md5
+               			if [ "$(echo "$passvar" | md5sum )" == "$passCheck" ]; then
                   			echo "Mot de passe correct"
-                  			./user.sh $user $machine
+                  			./user.sh $user $machine $i
                			else
                   			echo "Mot de passe incorrect, veuillez réessayer"
-							echo "$(echo "$passvar" | md5sum )"
-							echo "$passCheck"
 							continue
                			fi
          		fi    

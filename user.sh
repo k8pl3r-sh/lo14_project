@@ -4,6 +4,7 @@ echo  "####### USER #######"
 # Variables
 machine=$1
 user=$2
+i=$3
 
 while true; do
   read -p "$user@$machine > " input
@@ -29,8 +30,30 @@ while true; do
       echo "Vous avez entré la chaîne 'su'"
       ;;
     "passwd")
-      # Traitement pour la chaîne "passwd"
-      echo "Vous avez entré la chaîne 'passwd'"
+      # Traitement pour "passwd"
+      echo "Changement de mot de passe"
+      read -sp 'Mot de passe actuelle : ' passvar
+      passQuoted=$(jq '.['$i'].passwd' env/account.json)
+      passCheck="${passQuoted:1:-1}"	
+      if [ "$(echo "$passvar" | md5sum )" == "$passCheck" ]; then
+        echo ""
+        echo "Mot de passe correct"
+        read -sp 'New password: ' newpasswd1
+        echo ""
+        read -sp 'New password (again): ' newpasswd2
+          if [ "$newpasswd1" == "$newpasswd2" ]; then
+            newpasswd=$(echo "$newpasswd1" | md5sum )
+            jq --arg newpasswd "$newpasswd" '.['$i'].passwd |= $newpasswd' env/account.json > env/temp.json && mv env/temp.json env/account.json
+            echo ""
+            echo "Mot de passe changé"
+          else
+            echo "Les deux mots de passe ne correspondent pas"
+            continue
+          fi
+      else
+        echo "Mot de passe incorrect, veuillez réessayer"
+				continue
+      fi
       ;;
     "finger")
       # Traitement pour la chaîne "finger"
