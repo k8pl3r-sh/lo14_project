@@ -2,8 +2,8 @@
 echo  "####### USER #######"
 
 # Variables
-machine=$1
-user=$2
+user=$1
+machine=$2
 i=$3
 
 while true; do
@@ -26,12 +26,12 @@ while true; do
       echo "Vous avez entré la chaîne 'rconnect'"
       ;;
     "su")
-      # Traitement pour "su" 
+      # Traitement pour "su" X
       read -p 'New user: ' newUser
-      ./rvsh.sh -connect $machine $newUser # TODO : ajouter un check pour voir si l'utilisateur existe, pas de réaction pour le moment
+      ./rvsh.sh -connect $machine $newUser
       ;;
     "passwd")
-      # Traitement pour "passwd"
+      # Traitement pour "passwd" X
       echo "Changement de mot de passe"
       read -sp 'Mot de passe actuelle : ' passvar
       passQuoted=$(jq '.['$i'].passwd' env/account.json)
@@ -65,12 +65,12 @@ while true; do
       echo "Vous avez entré la chaîne 'write'"
       ;;
     "exit")
-      # Traitement pour la chaîne "exit"
-      echo "Vous avez entré la chaîne 'exit'"
+      # Traitement pour "exit"
+      echo "Vous quittez $machine"
       break
       ;;
     *)
-      # Exécute la chaîne de caractères entrée par l'utilisateur par la machine basse
+      # Default : on lance la chaine en bash
       eval $input
       ;;
   esac
