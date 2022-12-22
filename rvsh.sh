@@ -36,7 +36,6 @@ if [ "$1" == "-connect" ]; then
       		done
    		fi
 	done
-fi
 
 # Admin connection
 elif [ "$1" == "-admin" ]; then
