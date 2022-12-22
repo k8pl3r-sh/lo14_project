@@ -24,7 +24,7 @@ if [ "$1" == "-connect" ]; then
             		echo "Bonjour $user" 
             		read -sp 'Mot de passe : ' passvar
             		passQuoted=$(jq '.['$i'].passwd' env/account.json)
-            		passCheck="${passQuoted:1:-1}"	
+            		passCheck="${passQuoted:1:-1}"
                			if [ "$(echo "$passvar" | md5sum )" == "$passCheck" ]; then
                   			echo "Mot de passe correct"
                   			./user.sh $user $machine $i
@@ -32,7 +32,7 @@ if [ "$1" == "-connect" ]; then
                   			echo "Mot de passe incorrect, veuillez réessayer"
 							continue
                			fi
-         		fi    
+         		fi
       		done
    		fi
 	done
