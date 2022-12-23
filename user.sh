@@ -22,8 +22,9 @@ while true; do
       echo "Vous avez entré la chaîne 'rhost'"
       ;;
     "rconnect")
-      # Traitement pour la chaîne "rconnect"
-      echo "Vous avez entré la chaîne 'rconnect'"
+      # Traitement pour "rconnect" X
+      read -p 'New machine: ' newMachine
+      ./rvsh.sh -connect $newMachine $user
       ;;
     "su")
       # Traitement pour "su" X
