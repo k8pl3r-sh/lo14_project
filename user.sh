@@ -6,6 +6,12 @@ user=$1
 machine=$2
 i=$3
 
+# TODO : Faire lire les messages du user à l'entrée sur la machine
+# TODO : supprimer tout les messages après que la machine les ai lu
+
+# Mise à jour de lastConnected
+jq --arg connect "$(date +"%d-%m-%Y %H:%M:%S")" '.['$i'].lastConnected |= $connect' env/account.json > env/temp.json && mv env/temp.json env/account.json
+
 while true; do
   read -p "$user@$machine > " input
   case $input in
@@ -44,8 +50,7 @@ while true; do
         echo ""
         read -sp 'New password (again): ' newPasswd2
           if [ "$newPasswd1" == "$newPasswd2" ]; then
-            newPasswd=$(echo "$newPasswd1" | md5sum )
-            jq --arg newPasswd "$newPasswd" '.['$i'].passwd |= $newPasswd' env/account.json > env/temp.json && mv env/temp.json env/account.json
+            jq --arg newPasswd "$(echo "$newPasswd1" | md5sum )" '.['$i'].passwd |= $newPasswd' env/account.json > env/temp.json && mv env/temp.json env/account.json
             echo ""
             echo "Mot de passe changé"
           else
@@ -64,8 +69,11 @@ while true; do
       echo $info
       ;;
     "write")
-      # Traitement pour la chaîne "write"
-      echo "Vous avez entré la chaîne 'write'"
+      # Traitement pour "write" # $1=user, $2=machine, $3=message # Comment faire pour récupérer les variables à la suite de la commande ?
+      if [ "$1" == "" ]; then # user
+        echo "Vous ne pouvez pas utiliser cette commande"
+        continue
+      fi
       ;;
     "exit")
       # Traitement pour "exit"

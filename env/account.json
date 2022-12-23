@@ -3,18 +3,27 @@
     "name": "john",
     "passwd": "",
     "permissions": [],
+    "message": [],
     "lastConnected": "2015-01-01 00:00:00"
   },
   {
     "name": "paul",
     "passwd": "d8e8fca2dc0f896fd7cb4cb0031ba249  -",
-    "permissions": ["machine1", "machine2"],
-    "lastConnected": "2015-01-01 00:00:00"
+    "permissions": [
+      "machine1",
+      "machine2"
+    ],
+    "message": [],
+    "lastConnected": "23-12-2022 02:23:47"
   },
   {
     "name": "quentin",
     "passwd": "d8e8fca2dc0f896fd7cb4cb0031ba249  -",
-    "permissions": ["machine1", "machine2"],
+    "permissions": [
+      "machine1",
+      "machine2"
+    ],
+    "message": [],
     "lastConnected": "2015-01-01 00:00:00"
   }
 ]
