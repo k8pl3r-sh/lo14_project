@@ -34,15 +34,30 @@ while true; do
   read -p "$user@$machine > " input
   case $input in
     "who")
-      # Traitement pour la chaîne "who"
+      # Traitement pour "who" X
       echo "Vous avez entré la chaîne 'who'"
+      for ((w=0; w<=$(jq 'length' env/account.json); w++))
+      do 
+        for ((j=0; j<=$(jq '.['$w'].permissions | length' env/account.json); j++))
+        do
+          permQuoted=$(jq '.['$w'].permissions['$j']' env/account.json)
+          permCheck="${permQuoted:1:-1}"
+          if [ "$permCheck" = "$machine" ]; then 
+            userQuoted=$(jq '.['$w'].name' env/account.json)
+            userCheck="${userQuoted:1:-1}"
+            lastConnectedQuoted=$(jq '.['$w'].lastConnected' env/account.json)
+            lastConnectedCheck="${lastConnectedQuoted:1:-1}"
+            echo "$userCheck $lastConnectedCheck"
+          fi
+        done
+      done
       ;;
     "rusers")
       # Traitement pour la chaîne "rusers"
       echo "Vous avez entré la chaîne 'rusers'"
       ;;
     "rhost")
-      # Traitement pour la chaîne "rhost"
+      # Traitement pour "rhost" TODO : list de toute les machines, faire le tour de chaque user pour voir si il a cette machine et l'afficher
       echo "Vous avez entré la chaîne 'rhost'"
       ;;
     "rconnect")
