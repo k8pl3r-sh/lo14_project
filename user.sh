@@ -30,6 +30,9 @@ jq '.['$i'].message |= []' env/account.json > env/temp.json && mv env/temp.json 
 # Mise à jour de lastConnected
 jq --arg connect "$(date +"%d-%m-%Y %H:%M:%S")" '.['$i'].lastConnected |= $connect' env/account.json > env/temp.json && mv env/temp.json env/account.json
 
+# Passage en mode isConnected
+jq --arg machine "$machine" '.['$i'].isConnected |= $machine' env/account.json > env/temp.json && mv env/temp.json env/account.json
+
 while true; do
   read -p "$user@$machine > " input
   case $input in
@@ -53,8 +56,20 @@ while true; do
       done
       ;;
     "rusers")
-      # Traitement pour la chaîne "rusers"
-      echo "Vous avez entré la chaîne 'rusers'"
+      # Traitement pour "rusers"
+      rusers=$(( $(jq 'length' env/account.json) - 1 ))
+      for ((u=0; u<=$rusers; u++))
+      do 
+        if [ "$(jq '.['$u'].isConnected' env/account.json)" != "false" ]; then
+          userQuoted=$(jq '.['$u'].name' env/account.json)
+          userCheck="${userQuoted:1:-1}"
+          isConnectedQuoted=$(jq '.['$u'].isConnected' env/account.json)
+          isConnectedCheck="${isConnectedQuoted:1:-1}"
+          lastConnectedQuoted=$(jq '.['$u'].lastConnected' env/account.json)
+          lastConnectedCheck="${lastConnectedQuoted:1:-1}"
+          echo "Connecté : $userCheck sur $isConnectedCheck depuis $lastConnectedCheck"
+        fi
+      done
       ;;
     "rhost")
       # Traitement pour "rhost" X
@@ -112,6 +127,7 @@ while true; do
     "exit")
       # Traitement pour "exit"
       echo "Vous quittez $machine"
+      jq '.['$i'].isConnected |= false' env/account.json > env/temp.json && mv env/temp.json env/account.json
       break
       ;;
     *)

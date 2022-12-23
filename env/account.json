@@ -4,6 +4,7 @@
     "passwd": "",
     "permissions": [],
     "message": [],
+    "isConnected": false,
     "lastConnected": "2015-01-01 00:00:00"
   },
   {
@@ -14,7 +15,8 @@
       "machine2"
     ],
     "message": [],
-    "lastConnected": "23-12-2022 03:07:15"
+    "isConnected": "machine1",
+    "lastConnected": "23-12-2022 14:55:44"
   },
   {
     "name": "quentin",
@@ -24,6 +26,7 @@
       "machine2"
     ],
     "message": [],
+    "isConnected": false,
     "lastConnected": "2015-01-01 00:00:00"
   }
 ]
