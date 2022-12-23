@@ -58,8 +58,10 @@ while true; do
       fi
       ;;
     "finger")
-      # Traitement pour "finger" -> TODO : ajouter un listage de toute les users
-      echo "Vous avez entré la chaîne 'finger'"
+      # Traitement pour "finger" X -> vrai utilité ?  
+      read -p 'User: ' userInfo
+      info=$(jq '.[] | select(.name == "'$userInfo'")' env/account.json)
+      echo $info
       ;;
     "write")
       # Traitement pour la chaîne "write"
