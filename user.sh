@@ -8,19 +8,23 @@ i=$3
 
 # Comptage + lecture des messages
 nbMessage=$(jq '.['$i'].message | length' env/account.json)
+echo $nbMessage
 for ((m=0; m<=$nbMessage; m++))
 do
-  if [ $nbMessage -eq 0 ]; then
+  if [ '$nbMessage -eq 0' ]; then
     echo "Vous n'avez pas de nouveau message" 
-  elif [ $nbMessage -eq 1]; then
+  elif [ '$nbMessage -eq 1' ]; then
     echo "Vous avez un nouveau message"
+    message=$(jq '.['$i'].message['$m']' env/account.json)
+    echo "Message : $message"
   else
     echo "Vous avez $nbMessage nouveaux messages"
+    message=$(jq '.['$i'].message['$m']' env/account.json)
+    echo "Message $m : $message"
   fi
-  message=$(jq '.['$i'].message['$m']' env/account.json)
-  echo "Message $m : $message"
 done
-# TODO : supprimer tout les messages après que la machine les ai lu
+# Suppression des messages après lecture
+jq '.['$i'].message |= []' env/account.json > env/temp.json && mv env/temp.json env/account.json
 
 # Mise à jour de lastConnected
 jq --arg connect "$(date +"%d-%m-%Y %H:%M:%S")" '.['$i'].lastConnected |= $connect' env/account.json > env/temp.json && mv env/temp.json env/account.json
