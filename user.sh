@@ -8,21 +8,22 @@ i=$3
 
 # Comptage + lecture des messages
 nbMessage=$(jq '.['$i'].message | length' env/account.json)
-echo $nbMessage
-for ((m=0; m<=$nbMessage; m++))
-do
-  if [ '$nbMessage -eq 0' ]; then
+if [ $nbMessage -eq 0 ]; then
     echo "Vous n'avez pas de nouveau message" 
-  elif [ '$nbMessage -eq 1' ]; then
+  elif [ $nbMessage -eq 1 ]; then
     echo "Vous avez un nouveau message"
-    message=$(jq '.['$i'].message['$m']' env/account.json)
-    echo "Message : $message"
+      message=$(jq '.['$i'].message[0]' env/account.json)
+      echo "Message : $message"    
   else
     echo "Vous avez $nbMessage nouveaux messages"
-    message=$(jq '.['$i'].message['$m']' env/account.json)
-    echo "Message $m : $message"
+    ((nbMessage--))
+    for ((m=0; m<=$nbMessage; m++))
+    do
+      message=$(jq '.['$i'].message['$m']' env/account.json)
+      echo "Message $m : $message"
+    done  
   fi
-done
+
 # Suppression des messages après lecture
 jq '.['$i'].message |= []' env/account.json > env/temp.json && mv env/temp.json env/account.json
 
