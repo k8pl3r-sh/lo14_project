@@ -57,8 +57,9 @@ while true; do
       echo "Vous avez entré la chaîne 'rusers'"
       ;;
     "rhost")
-      # Traitement pour "rhost" TODO : list de toute les machines, faire le tour de chaque user pour voir si il a cette machine et l'afficher
-      echo "Vous avez entré la chaîne 'rhost'"
+      # Traitement pour "rhost" X
+      hostList=$(jq '[ .[] | .permissions[] ] | unique' env/account.json)
+      echo "Voici la liste des machines : $hostList"
       ;;
     "rconnect")
       # Traitement pour "rconnect" X
