@@ -6,7 +6,20 @@ user=$1
 machine=$2
 i=$3
 
-# TODO : Faire lire les messages du user à l'entrée sur la machine
+# Comptage + lecture des messages
+nbMessage=$(jq '.['$i'].message | length' env/account.json)
+for ((m=0; m<=$nbMessage; m++))
+do
+  if [ $nbMessage -eq 0 ]; then
+    echo "Vous n'avez pas de nouveau message" 
+  elif [ $nbMessage -eq 1]; then
+    echo "Vous avez un nouveau message"
+  else
+    echo "Vous avez $nbMessage nouveaux messages"
+  fi
+  message=$(jq '.['$i'].message['$m']' env/account.json)
+  echo "Message $m : $message"
+done
 # TODO : supprimer tout les messages après que la machine les ai lu
 
 # Mise à jour de lastConnected
