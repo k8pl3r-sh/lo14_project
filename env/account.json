@@ -1,5 +1,15 @@
 [
   {
+    "name": "admin",
+    "passwd": "",
+    "permissions": [
+      "hostroot"
+    ],
+    "message": [],
+    "isConnected": false,
+    "lastConnected": "2015-01-01 00:00:00"
+  },
+  {
     "name": "john",
     "passwd": "",
     "permissions": [],
@@ -16,7 +26,7 @@
     ],
     "message": [],
     "isConnected": "machine1",
-    "lastConnected": "27-12-2022 20:29:58"
+    "lastConnected": "27-12-2022 20:33:48"
   },
   {
     "name": "quentin",

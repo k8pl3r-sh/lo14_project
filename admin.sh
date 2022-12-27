@@ -1,5 +1,12 @@
 #!/bin/bash
 
+echo  "####### ADMIN #######"
+# Variables TODO
+#user=$1
+#machine=$2
+#i=$3
+
+
 ########################## FUNCTIONS #############################
 
 host () { # $1 = -a or -r and $2 is machine name
@@ -22,17 +29,19 @@ user () { # $1 = -ua/-ud or -ra/-rd and $2 is username, $3, boucle pls args host
 
 	echo "DEBUG: user function"
 	if [ "$1" == "-ua" ]; then
+		echo "DEBUG: user add"
 		# TODO: -user-add
 
 	elif [ "$1" == "-ur" ]; then
+		echo "DEBUG: user delete"
 		# TODO: -user-delete
-	fi
 
 	elif [ "$1" == "-ur" ]; then
+		echo "DEBUG: right add"
 		# TODO: -right-add
-	fi
 
 	elif [ "$1" == "-ur" ]; then
+		echo "DEBUG: right delete"
 		# TODO: -right-delete
 	fi
 }
@@ -50,27 +59,30 @@ afinger () { # $1 user to edit infos of a user
 
 
 # TODO: while avec commande exit pour déco
-cmd="" # TODO: input command with options
 
+while true; do
+	read -p "root@hostroot > " input
+	case $input in
+		"host" )
+			echo "host"
+			# function and arguments
+			;;
 
-case $cmd in
-	host )
-		echo "host"
-		# function and arguments
-		;;
+		"user" )
+			echo "user"
+			# function and arguments
+			;;
 
-	user )
-		echo "user"
-		# function and arguments
-		;;
+		"wall" )
+			echo "wall"
+			# function and arguments
+			;;
 
-	wall )
-		echo "wall"
-		# function and arguments
-		;;
-
-	afinger )
-		echo "afinger"
-		# function and arguments
-		;;
-esac
+		"afinger" )
+			echo "afinger"
+			# function and arguments
+			;;
+		# TODO: faire un everything else et msg erreur
+		# TODO (aailleurs): commande help
+	esac
+done

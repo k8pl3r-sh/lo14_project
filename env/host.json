@@ -1,4 +1,7 @@
 [
+  { 
+    "name": "hostroot"
+  },
   {
     "name": "machine1"
   },
