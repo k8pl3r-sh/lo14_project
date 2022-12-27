@@ -82,7 +82,15 @@ while true; do
 			echo "afinger"
 			# function and arguments
 			;;
-		# TODO: faire un everything else et msg erreur
-		# TODO (aailleurs): commande help
+
+		"help" )
+			echo "help"
+			# function and arguments
+			;;
+
+		*)
+			echo "This is not a valid command, use help function to see all available commands"
+			;;
+		# TODO (aailleurs): commande help + ajouter commandes de user
 	esac
 done
