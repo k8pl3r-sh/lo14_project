@@ -1,16 +1,23 @@
 #!/bin/bash
 
 
-########################## MAIN #############################
+########################## VARIABLES #############################
 
 passwd='63a9f0ea7bb98050796b649e85481845' # root hashed in md5
 
 passwordUser="d8e8fca2dc0f896fd7cb4cb0031ba249" # test hashed in md5
 
+
+########################## MAIN #############################
+
 # User connection
 if [ "$1" == "-connect" ]; then
 	machine=$2
 	user=$3
+	if [[ -z "$2" || -z "$3" ]]; then # Check that user and machine variables are not empty
+		echo "Retry by providing <machine_name> and <username> please"
+	fi
+
 	for ((i=0; i<=$(jq 'length' env/account.json); i++))
 	do
    		userQuoted=$(jq '.['$i'].name' env/account.json)
@@ -46,4 +53,10 @@ elif [ "$1" == "-admin" ]; then
 	if [[ "$uservar"=="admin" && "$(echo "$passvar" | md5sum )"=="$passwd" ]]; then
 		./admin.sh
 	fi
+
+else
+	echo "Please retry and specify a command: '-admin' or '-connect'"
+
 fi
+
+
