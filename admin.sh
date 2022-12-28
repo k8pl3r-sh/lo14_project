@@ -113,18 +113,17 @@ while true; do
 			;;
 
 		"user" )
-			echo "user"
-			# function and arguments
+			user # ONGOING
 			;;
 
 		"wall" )
 			echo "wall"
-			# function and arguments
+			# TODO
 			;;
 
 		"afinger" )
 			echo "afinger"
-			# function and arguments
+			# TODO
 			;;
 
 		"help" )
@@ -135,6 +134,5 @@ while true; do
 			# Default : on lance la chaine en bash
       		eval $input
 			;;
-		# TODO (aailleurs): commande help + ajouter commandes de user
 	esac
 done
