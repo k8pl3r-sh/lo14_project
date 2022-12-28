@@ -19,7 +19,6 @@ host () { # $1 = -a or -r and $2 is machine name
 		rm ./env/"$2"
 		echo "$2 host has been deleted"
 	fi
-
 }
 
 
@@ -89,7 +88,8 @@ while true; do
 			;;
 
 		*)
-			echo "This is not a valid command, use help function to see all available commands"
+			# Default : on lance la chaine en bash
+      		eval $input
 			;;
 		# TODO (aailleurs): commande help + ajouter commandes de user
 	esac
