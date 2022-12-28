@@ -6,8 +6,14 @@ echo  "####### ADMIN #######"
 #machine=$2
 #i=$3
 
+source functions.sh
 
 ########################## FUNCTIONS #############################
+help_admin () {
+	help_user
+	# TODO:  the admin part
+}
+
 
 host () { # $1 = -a or -r and $2 is machine name
 	echo "DEBUG: host function"

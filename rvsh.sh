@@ -49,6 +49,7 @@ elif [ "$1" == "-admin" ]; then
 	read -sp 'Password: ' passvar
 
 	if [[ "$(echo "$passvar" | md5sum )"=="$passwd" ]]; then
+		# TODO: homogéiniser le if avec le if du test du user
 		./admin.sh
 	fi
 
