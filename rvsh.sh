@@ -46,12 +46,22 @@ if [ "$1" == "-connect" ]; then
 
 # Admin connection
 elif [ "$1" == "-admin" ]; then
-	read -sp 'Password: ' passvar
+	echo "Bonjour admin" 
+    read -sp 'Mot de passe : ' passvar
+    passQuoted=$(jq '.[0].passwd' env/account.json)
+    passCheck="${passQuoted:1:-1}"
+    if [ "$(echo "$passvar" | md5sum )" == "$passCheck" ]; then # TODO: à réparer
+        echo "Mot de passe correct"
+        ./admin.sh 
+    else
+        echo "Mot de passe incorrect, veuillez réessayer"
+    fi
 
-	if [[ "$(echo "$passvar" | md5sum )"=="$passwd" ]]; then
-		# TODO: homogéiniser le if avec le if du test du user
-		./admin.sh
-	fi
+# To delete: 
+#	if [[ "$(echo "$passvar" | md5sum )"=="$passwd" ]]; then
+#		# TODO: homogéiniser le if avec le if du test du user
+#		./admin.sh
+#	fi
 
 else
 	echo "Please retry and specify a command: '-admin' or '-connect'"

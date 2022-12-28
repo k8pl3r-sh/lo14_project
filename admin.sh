@@ -6,7 +6,7 @@ echo  -e "\n####### ADMIN #######"
 #machine=$2
 #i=$3
 
-source functions.sh
+source functions.sh # to use user functions stored in the script
 
 ########################## FUNCTIONS #############################
 help_admin () {
@@ -75,8 +75,7 @@ while true; do
 	read -p "root@hostroot > " input
 	case $input in
 		"host" )
-			echo "host"
-			# function and arguments
+			host
 			;;
 
 		"user" )
