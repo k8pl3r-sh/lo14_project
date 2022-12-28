@@ -1,7 +1,7 @@
 [
   {
     "name": "admin",
-    "passwd": "d41d8cd98f00b204e9800998ecf8427e -",
+    "passwd": "74cc1c60799e0a786ac7094b532f01b1  -",
     "permissions": [
       "hostroot"
     ],

@@ -48,8 +48,9 @@ if [ "$1" == "-connect" ]; then
 elif [ "$1" == "-admin" ]; then
 	echo "Bonjour admin" 
     read -sp 'Mot de passe : ' passvar
-    passQuoted=$(jq '.[0].passwd' env/account.json)
+    passQuoted=$(jq '.['0'].passwd' env/account.json)
     passCheck="${passQuoted:1:-1}"
+
     if [ "$(echo "$passvar" | md5sum )" == "$passCheck" ]; then # TODO: à réparer
         echo "Mot de passe correct"
         ./admin.sh 

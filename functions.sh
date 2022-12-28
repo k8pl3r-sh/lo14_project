@@ -50,6 +50,7 @@ rconnect () {
       read -p 'New machine: ' newMachine
       ./rvsh.sh -connect $newMachine $user
       # TODO: noter les différentes machines sur le json pour gérer les connexions en chaines
+      # TODO gérer si machine n'existe pas
 }
 
 su_ () {
