@@ -3,9 +3,10 @@
 
 ########################## VARIABLES #############################
 
-passwd='63a9f0ea7bb98050796b649e85481845' # root hashed in md5
+# TO DELETE BEFORE USING IT IN PROD
+passwd='74cc1c60799e0a786ac7094b532f01b1' # root md5sum
 
-passwordUser="d8e8fca2dc0f896fd7cb4cb0031ba249" # test hashed in md5
+passwordUser="d8e8fca2dc0f896fd7cb4cb0031ba249" # test md5sum
 
 
 ########################## MAIN #############################
@@ -57,12 +58,6 @@ elif [ "$1" == "-admin" ]; then
     else
         echo "Mot de passe incorrect, veuillez réessayer"
     fi
-
-# To delete: 
-#	if [[ "$(echo "$passvar" | md5sum )"=="$passwd" ]]; then
-#		# TODO: homogéiniser le if avec le if du test du user
-#		./admin.sh
-#	fi
 
 else
 	echo "Please retry and specify a command: '-admin' or '-connect'"

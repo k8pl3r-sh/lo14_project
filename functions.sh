@@ -58,6 +58,7 @@ su_ () {
   # Traitement pour "su" X
       read -p 'New user: ' newUser
       ./rvsh.sh -connect $machine $newUser
+      # TODO: check if machine and user exist
 }
 
 passwd () {

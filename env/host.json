@@ -1,5 +1,5 @@
 [
-  { 
+  {
     "name": "hostroot"
   },
   {
@@ -7,5 +7,20 @@
   },
   {
     "name": "machine2"
+  },
+  {
+    "name": "qwerty"
+  },
+  {
+    "name": "dark_vador"
+  },
+  {
+    "name": "apple"
+  },
+  {
+    "name": "orange"
+  },
+  {
+    "name": "kali"
   }
 ]

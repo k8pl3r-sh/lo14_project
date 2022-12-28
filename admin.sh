@@ -2,9 +2,9 @@
 
 echo  -e "\n####### ADMIN #######"
 # Variables TODO
-#user=$1
-#machine=$2
-#i=$3
+user="admin"
+machine="hostroot"
+i=$3
 
 source functions.sh # to use user functions stored in the script
 
@@ -22,14 +22,23 @@ help_admin () {
 
 
 host () { # $1 = -a or -r and $2 is machine name
-	echo "DEBUG: host function"
+	# echo "DEBUG: host function"
+	if [[ -z "$1" || -z "$2" ]]; then # Check that user and machine variables are not empty
+		echo "Retry by providing option <-a add | -r remove> and <hostname> please"
+	fi
+
 	if [ "$1" == "-a" ]; then
-		touch ./env/"$2"
-		# TODO: build json template with informations of admin (for first time)
+		# TODO: Test de la fonction, une fois terminée
+		# TODO: if $2 existe déjà ?
+
+		t=$(jq 'length' env/host.json) # add an item to the lenght -1 position
+
+		jq --arg n "$2" '.['$t']={"name": $n}' env/host.json > env/temp.json && mv env/temp.json env/host.json
 
 	elif [ "$1" == "-r" ]; then
-		rm ./env/"$2"
+		# TODO
 		echo "$2 host has been deleted"
+		# TODO if $2 doesn't exist
 	fi
 }
 
