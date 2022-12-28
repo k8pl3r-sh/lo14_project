@@ -85,6 +85,8 @@ user () { # $1 = -ua/-ud or -ra/-rd and $2 is username, $3, boucle pls args host
 	elif [ "$1" == "-ur" ]; then
 		echo "DEBUG: right add"
 		# TODO: -right-add
+		# jq '.access.allowed_users += ["test32"]'
+		# jq '.[] | select(.name == "'$2'") | '
 
 	elif [ "$1" == "-ur" ]; then
 		echo "DEBUG: right delete"
@@ -100,7 +102,16 @@ wall () {
 }
 
 afinger () { # $1 user to edit infos of a user
-	echo "DEBUG: afinger function"
+	read -p 'User: ' userInfo
+    info=$(jq '.[] | select(.name == "'$userInfo'")' env/account.json)
+    echo $info
+    echo "####### EDITION ########"
+    read -p 'Phone (enter doesn t edit): ' phone
+    read -p 'Job: ' job
+    # TODO check if not empty
+    # TODO: add "phone": "06"
+    # TODO: add "job": "xxxx"
+
 }
 
 
