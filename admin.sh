@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo  "####### ADMIN #######"
+echo  -e "\n####### ADMIN #######"
 # Variables TODO
 #user=$1
 #machine=$2
@@ -11,7 +11,13 @@ source functions.sh
 ########################## FUNCTIONS #############################
 help_admin () {
 	help_user
-	# TODO:  the admin part
+	echo -e "\n###################################### ADMIN ##########################################"
+	echo "'host' command allows you to     : add/remove host of the network"
+	echo "'user' command allows you to     : add/remove a user, or a access right to hosts"
+	echo "'wall' command allows you to     : send a message to all users on the network"
+	echo "'afinger' command allows you to  : add complementary informations for users"
+	echo "###################################### ADMIN ##########################################"
+
 }
 
 
@@ -89,8 +95,7 @@ while true; do
 			;;
 
 		"help" )
-			echo "help"
-			# function and arguments
+			help_admin
 			;;
 
 		*)
