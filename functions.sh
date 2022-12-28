@@ -24,6 +24,7 @@ who () {
 
 rusers () {
   # Traitement pour "rusers"
+  # TODO: if admin pas de echo "sur", soucis quentin et john non connecté (à tester en admin aussi)
       rusers=$(( $(jq 'length' env/account.json) - 1 ))
       for ((u=0; u<=$rusers; u++))
       do 
@@ -41,7 +42,7 @@ rusers () {
 
 rhost () {
   # Traitement pour "rhost" X
-      hostList=$(jq '[ .[] | .permissions[] ] | unique' env/account.json)
+      hostList=$(jq '.[] | .name' env/host.json)
       echo "Voici la liste des machines : $hostList"
 }
 
@@ -63,8 +64,9 @@ su_ () {
 
 passwd () {
   # Traitement pour "passwd" X
+  # TODO: soucis avec mdp admin
       echo "Changement de mot de passe"
-      read -sp 'Mot de passe actuelle : ' passvar
+      read -sp 'Mot de passe actuel : ' passvar
       passQuoted=$(jq '.['$i'].passwd' env/account.json)
       passCheck="${passQuoted:1:-1}"  
       if [ "$(echo "$passvar" | md5sum )" == "$passCheck" ]; then
@@ -104,6 +106,7 @@ write () {
 
 exit_ () {
   # Traitement pour "exit"
+  # TODO: à debug
       echo "Vous quittez $machine"
       jq '.['$i'].isConnected |= false' env/account.json > env/temp.json && mv env/temp.json env/account.json
       break # TODO: doesn't work: line 111: break: only meaningful in a `for', `while', or `until' loop

@@ -3,11 +3,12 @@
     "name": "admin",
     "passwd": "74cc1c60799e0a786ac7094b532f01b1  -",
     "permissions": [
-      "hostroot"
+      "hostroot",
+      "machine1"
     ],
     "message": [],
-    "isConnected": "",
-    "lastConnected": "28-12-2022 15:00:13"
+    "isConnected": false,
+    "lastConnected": "28-12-2022 18:54:57"
   },
   {
     "name": "john",
@@ -26,7 +27,7 @@
     ],
     "message": [],
     "isConnected": "machine1",
-    "lastConnected": "28-12-2022 15:15:43"
+    "lastConnected": "28-12-2022 18:54:12"
   },
   {
     "name": "quentin",

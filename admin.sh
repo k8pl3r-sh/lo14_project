@@ -46,6 +46,7 @@ host () { # $1 = -a or -r and $2 is machine name
    			t=$(jq 'length' env/host.json) # add an item to the lenght -1 position
 			jq --arg n "$2" '.['$t']={"name": $n}' env/host.json > env/temp.json && mv env/temp.json env/host.json
 			echo "$2 has been created"
+			# TODO: add permission for admin to access to the host
 		fi
 
 		
