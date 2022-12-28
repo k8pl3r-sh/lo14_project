@@ -22,23 +22,48 @@ help_admin () {
 
 
 host () { # $1 = -a or -r and $2 is machine name
-	# echo "DEBUG: host function"
+
 	if [[ -z "$1" || -z "$2" ]]; then # Check that user and machine variables are not empty
 		echo "Retry by providing option <-a add | -r remove> and <hostname> please"
 	fi
 
-	if [ "$1" == "-a" ]; then
-		# TODO: Test de la fonction, une fois terminée
-		# TODO: if $2 existe déjà ?
+	if [ "$1" == "-a" ]; then # ADD HOST
+		exist=false
+		for ((i=0; i<=$(jq 'length' env/host.json); i++))
+		do
+   			hostname=$(jq '.['$i'].name' env/host.json)
 
-		t=$(jq 'length' env/host.json) # add an item to the lenght -1 position
+   			if [ "${hostname:1:-1}" = "$2" ]; then
+   				exist=true
+   				break
+   			fi
+   		done
 
-		jq --arg n "$2" '.['$t']={"name": $n}' env/host.json > env/temp.json && mv env/temp.json env/host.json
+   		if [ $exist ]; then
+   			echo "$2 host exist already, please choose another name"
 
-	elif [ "$1" == "-r" ]; then
-		# TODO
-		echo "$2 host has been deleted"
-		# TODO if $2 doesn't exist
+   		elif [ !$exist ]; then
+   			t=$(jq 'length' env/host.json) # add an item to the lenght -1 position
+			jq --arg n "$2" '.['$t']={"name": $n}' env/host.json > env/temp.json && mv env/temp.json env/host.json
+			echo "$2 has been created"
+		fi
+
+		
+
+	elif [ "$1" == "-r" ]; then # REMOVE HOST
+		for ((i=0; i<=$(jq 'length' env/host.json); i++))
+		do
+   			hostname=$(jq '.['$i'].name' env/host.json)
+
+   			if [ "${hostname:1:-1}" = "$2" ]; then
+   				jq '. | del(.['$i'])' env/host.json > env/temp.json && mv env/temp.json env/host.json
+   				echo "$2 host has been deleted"
+   				break
+
+   			elif [ "$i" == "$(jq 'length' env/host.json)" ]; then
+   				echo "$2 doesn't exist in this network"
+   			fi
+   		done 
 	fi
 }
 
