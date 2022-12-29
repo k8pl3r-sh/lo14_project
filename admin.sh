@@ -106,6 +106,9 @@ user () { # $1 = -ua/-ud or -ra/-rd and $2 is username, $3, boucle pls args host
 	elif [ "$1" == "-rd" ]; then
 		echo "DEBUG: right delete"
 		# TODO: -right-delete
+
+	else
+		echo "Please retry using <-ua | -ud | -ra | -rd> respectively for user add/delete and right add/delete"
 	fi
 }
 
