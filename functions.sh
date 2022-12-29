@@ -58,8 +58,14 @@ su_ () {
   # Command su_ because su command exists in bash
   # Traitement pour "su" X
       read -p 'New user: ' newUser
+      if [ "$newUser" == "$user" ]; then
+        echo "Vous êtes déjà connecté en tant que $newUser"
+        continue
+      else if [ "$newUser" == "admin" ]; then
+        echo "Vous ne pouvez pas vous connecter en tant qu'admin"
+        continue
+      fi
       ./rvsh.sh -connect $machine $newUser
-      # TODO: check if machine and user exist
 }
 
 passwd () {
