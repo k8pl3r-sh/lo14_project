@@ -50,8 +50,8 @@ rconnect () {
   # Traitement pour "rconnect" X
       read -p 'New machine: ' newMachine
       ./rvsh.sh -connect $newMachine $user
+      echo "Cette machine n'existe pas"
       # TODO: noter les différentes machines sur le json pour gérer les connexions en chaines
-      # TODO gérer si machine n'existe pas
 }
 
 su_ () {
