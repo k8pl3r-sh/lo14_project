@@ -7,8 +7,8 @@
       "machine1"
     ],
     "message": [],
-    "isConnected": false,
-    "lastConnected": "28-12-2022 18:54:57"
+    "isConnected": "machine1",
+    "lastConnected": "30-12-2022 00:12:27"
   },
   {
     "name": "paul",
@@ -19,7 +19,7 @@
     ],
     "message": [],
     "isConnected": "machine1",
-    "lastConnected": "28-12-2022 22:17:32"
+    "lastConnected": "30-12-2022 00:12:16"
   },
   {
     "name": "quentin",

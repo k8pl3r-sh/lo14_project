@@ -64,7 +64,6 @@ su_ () {
 
 passwd () {
   # Traitement pour "passwd" X
-  # TODO: soucis avec mdp admin
       echo "Changement de mot de passe"
       read -sp 'Mot de passe actuel : ' passvar
       passQuoted=$(jq '.['$i'].passwd' env/account.json)
@@ -81,11 +80,9 @@ passwd () {
             echo "Mot de passe changé"
           else
             echo "Les deux mots de passe ne correspondent pas"
-            continue
           fi
       else
         echo "Mot de passe incorrect, veuillez réessayer"
-        continue
       fi
 }
 
