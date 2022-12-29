@@ -18,8 +18,8 @@
       "machine2"
     ],
     "message": [],
-    "isConnected": "machine1",
-    "lastConnected": "30-12-2022 00:12:16"
+    "isConnected": false,
+    "lastConnected": "30-12-2022 00:16:11"
   },
   {
     "name": "quentin",

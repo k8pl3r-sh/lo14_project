@@ -94,22 +94,12 @@ finger () {
 }
 
 write () {
-  # Traitement pour "write" # $1=user, $2=machine, $3=message # Comment faire pour récupérer les variables à la suite de la commande ?
+  # Traitement pour "write" TODO # $1=user, $2=machine, $3=message # Comment faire pour récupérer les variables à la suite de la commande ?
       if [ "$1" == "" ]; then # user
         echo "Vous ne pouvez pas utiliser cette commande"
         continue
       fi
 }
-
-exit_ () {
-  # Traitement pour "exit"
-  # TODO: à debug
-      echo "Vous quittez $machine"
-      jq '.['$i'].isConnected |= false' env/account.json > env/temp.json && mv env/temp.json env/account.json
-      break # TODO: doesn't work: line 111: break: only meaningful in a `for', `while', or `until' loop
-      # TODO: gérer la déconnexion si machines successives
-}
-
 
 help_user () {
   # documentation of available functions if needed for the user

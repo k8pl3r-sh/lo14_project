@@ -64,7 +64,9 @@ while true; do
       write
       ;;
     "exit")
-      exit_
+      echo "Vous quittez $machine"
+      jq '.['$i'].isConnected |= false' env/account.json > env/temp.json && mv env/temp.json env/account.json
+      break
       ;;
     "help")
       help_user
