@@ -76,19 +76,34 @@ user () { # $1 = -ua/-ud or -ra/-rd and $2 is username, $3, boucle pls args host
 	echo "DEBUG: user function"
 	if [ "$1" == "-ua" ]; then
 		echo "DEBUG: user add"
-		# TODO: -user-add
+		read -p 'User name: ' username
+		read -p 'Passwd: ' passwd
+		read -p 'Permissions: ' permissions
+		# TODO: -user-add: add user account to the account.json
 
-	elif [ "$1" == "-ur" ]; then
-		echo "DEBUG: user delete"
-		# TODO: -user-delete
+	elif [ "$1" == "-ud" ]; then
+		read -p 'User name to delete: ' username
+		for ((i=0; i<=$(jq 'length' env/account.json); i++))
+		do
+   			name=$(jq '.['$i'].name' env/account.json)
 
-	elif [ "$1" == "-ur" ]; then
+   			if [ "${name:1:-1}" = "$username" ]; then
+   				jq '. | del(.['$i'])' env/account.json > env/temp.json && mv env/temp.json env/account.json
+   				echo "$username host has been deleted"
+   				break
+
+   			elif [ "$i" == "$(jq 'length' env/account.json)" ]; then
+   				echo "$username doesn't exist in this network"
+   			fi
+   		done
+
+	elif [ "$1" == "-ra" ]; then
 		echo "DEBUG: right add"
 		# TODO: -right-add
 		# jq '.access.allowed_users += ["test32"]'
 		# jq '.[] | select(.name == "'$2'") | '
 
-	elif [ "$1" == "-ur" ]; then
+	elif [ "$1" == "-rd" ]; then
 		echo "DEBUG: right delete"
 		# TODO: -right-delete
 	fi
