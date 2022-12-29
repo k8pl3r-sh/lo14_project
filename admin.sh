@@ -79,7 +79,8 @@ user () { # $1 = -ua/-ud or -ra/-rd and $2 is username, $3, boucle pls args host
 		read -p 'User name: ' username
 		read -p 'Passwd: ' passwd
 		read -p 'Permissions: ' permissions
-		# TODO: -user-add: add user account to the account.json
+		# TODO: if user exists:
+		# TODO JQ: -user-add: add user account to the account.json
 
 	elif [ "$1" == "-ud" ]; then
 		read -p 'User name to delete: ' username
