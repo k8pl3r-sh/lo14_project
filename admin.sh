@@ -4,7 +4,7 @@ echo  -e "\n####### ADMIN #######"
 # Variables TODO
 user="admin"
 machine="hostroot"
-i=$3
+i=0
 
 source functions.sh # to use user functions stored in the script
 
@@ -19,7 +19,6 @@ help_admin () {
 	echo "###################################### ADMIN ##########################################"
 
 }
-
 
 host () { # $1 = -a or -r and $2 is machine name
 
@@ -130,10 +129,11 @@ user () { # -ua/-ud or -ra/-r
    				read -a 'New host permissions (separated by a space): ' permissions
    				for element in $permissions
    				do
+					echo "test"
    					# TODO check that host exist
    					# TODO add permissions[0], permissions[1] with jq
    				done
-   				break
+				break
    			fi
    		done
 
@@ -159,6 +159,7 @@ user () { # -ua/-ud or -ra/-r
    				read -a 'Delete host permissions (separated by a space): ' permissions
    				for element in $permissions
    				do
+					echo "test"
    					# TODO check that host exist
    					# TODO remove permissions[0], permissions[1] with jq
    				done
@@ -223,6 +224,10 @@ while true; do
 			help_admin
 			;;
 
+		"passwd" )
+			passwd
+			;;
+			
 		*)
 			# Default : on lance la chaine en bash
       		eval $input
