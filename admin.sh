@@ -197,8 +197,6 @@ afinger () { # $1 user to edit infos of a user
 }
 
 
-# TODO: while avec commande exit pour déco
-
 while true; do
 	read -p "root@hostroot > " input
 	case $input in
@@ -227,6 +225,13 @@ while true; do
 		"passwd" )
 			passwd
 			;;
+
+		"exit")
+			# TODO: à vérifier
+        	echo "Vous quittez $machine"
+      		jq '.['$i'].isConnected |= false' env/account.json > env/temp.json && mv env/temp.json env/account.json
+      		break
+      		;;
 			
 		*)
 			# Default : on lance la chaine en bash
