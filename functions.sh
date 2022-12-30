@@ -4,7 +4,7 @@
 
 who () {
   # Traitement pour "who" X
-      echo "Vous avez entré la chaîne 'who'"
+      echo "You have enter 'who'"
       for ((w=0; w<=$(jq 'length' env/account.json); w++))
       do 
         for ((j=0; j<=$(jq '.['$w'].permissions | length' env/account.json); j++))
@@ -35,7 +35,7 @@ rusers () {
           isConnectedCheck="${isConnectedQuoted:1:-1}"
           lastConnectedQuoted=$(jq '.['$u'].lastConnected' env/account.json)
           lastConnectedCheck="${lastConnectedQuoted:1:-1}"
-          echo "Connecté : $userCheck sur $isConnectedCheck depuis $lastConnectedCheck"
+          echo "Connected : $userCheck on $isConnectedCheck since $lastConnectedCheck"
         fi
       done
 }
@@ -43,14 +43,14 @@ rusers () {
 rhost () {
   # Traitement pour "rhost" X
       hostList=$(jq '.[] | .name' env/host.json)
-      echo "Voici la liste des machines : $hostList"
+      echo "List of hosts : $hostList"
 }
 
 rconnect () {
   # Traitement pour "rconnect" X
-      read -p 'New machine: ' newMachine
+      read -p 'New host: ' newMachine
       ./rvsh.sh -connect $newMachine $user
-      echo "Cette machine n'existe pas"
+      echo "This host doesn't exist"
       # TODO: noter les différentes machines sur le json pour gérer les connexions en chaines
 }
 
@@ -58,9 +58,9 @@ su_ () {
   # Command su_ because su command exists in bash
   # Traitement pour "su" X
       if [ "$newUser" == "$user" ]; then
-        echo "Vous êtes déjà connecté en tant que $newUser"
+        echo "You are already connected as $newUser"
       elif [ "$newUser" == "admin" ]; then
-        echo "Vous ne pouvez pas vous connecter en tant qu'admin"
+        echo "You can't connect as admin"
       fi
       read -p 'New user: ' newUser
       ./rvsh.sh -connect $machine $newUser
@@ -68,25 +68,25 @@ su_ () {
 
 passwd () {
   # Traitement pour "passwd" X
-      echo "Changement de mot de passe"
-      read -sp 'Mot de passe actuel : ' passvar
+      echo "Change password"
+      read -sp 'Current password : ' passvar
       passQuoted=$(jq '.['$i'].passwd' env/account.json)
       passCheck="${passQuoted:1:-1}"  
       if [ "$(echo "$passvar" | md5sum )" == "$passCheck" ]; then
         echo ""
-        echo "Mot de passe correct"
+        echo "Correct password"
         read -sp 'New password: ' newPasswd1
         echo ""
         read -sp 'New password (again): ' newPasswd2
           if [ "$newPasswd1" == "$newPasswd2" ]; then
             jq --arg newPasswd "$(echo "$newPasswd1" | md5sum )" '.['$i'].passwd |= $newPasswd' env/account.json > env/temp.json && mv env/temp.json env/account.json
             echo ""
-            echo "Mot de passe changé"
+            echo "Password change successful"
           else
-            echo "Les deux mots de passe ne correspondent pas"
+            echo "Passwords are not the same"
           fi
       else
-        echo "Mot de passe incorrect, veuillez réessayer"
+        echo "Incorrect password, please retry"
       fi
 }
 
@@ -100,7 +100,7 @@ finger () {
 write () {
   # Traitement pour "write" TODO # $1=user, $2=machine, $3=message # Comment faire pour récupérer les variables à la suite de la commande ?
       if [ "$1" == "" ]; then # user
-        echo "Vous ne pouvez pas utiliser cette commande"
+        echo "You can't use this command"
         continue
       fi
 }
