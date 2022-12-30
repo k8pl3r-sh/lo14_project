@@ -52,7 +52,7 @@ elif [ "$1" == "-admin" ]; then
     passQuoted=$(jq '.['0'].passwd' env/account.json)
     passCheck="${passQuoted:1:-1}"
 
-    if [ "$(echo "$passvar" | md5sum )" == "$passCheck" ]; then # TODO: à réparer
+    if [ "$(echo "$passvar" | md5sum )" == "$passCheck" ]; then
         echo "Login success"
         ./admin.sh 
     else

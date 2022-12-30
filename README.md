@@ -20,3 +20,16 @@ Options:
 `-r <hostname ...>`
 `wall` `msg` or `-n msg`
 
+
+# TODO
+- delete variables in rvsh: password test and root for admin
+- commenter tout le code
+- check exit admin 
+
+- admin.sh: 
+	-> host: admin permissions for all hosts created
+	-> user: jq requests, structure of user options
+	-> wall TODO
+	-> afinger: jq requests, structure
+
+

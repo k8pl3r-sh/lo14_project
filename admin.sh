@@ -227,7 +227,7 @@ while true; do
 		"exit")
 			# TODO: à vérifier
         	echo "You quit $machine"
-      		jq '.['$i'].isConnected |= false' env/account.json > env/temp.json && mv env/temp.json env/account.json
+      		jq '.[0].isConnected |= false' env/account.json > env/temp.json && mv env/temp.json env/account.json
       		break
       		;;
 			
