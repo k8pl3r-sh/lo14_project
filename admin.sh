@@ -133,20 +133,14 @@ user () { # -ua/-ud or -ra/-r
    					# TODO check that host exist
    					# TODO add permissions[0], permissions[1] with jq
    				done
-
-				
-
-				# TODO: jq request to add / edit passwd/permissions
    				break
    			fi
    		done
 
    		if [ !$exist ]; then
-   			echo "$username doesn't exist in this network, we are building one"
-   			# TODO: add a user, with passwd and permissions
+   			echo "$username doesn't exist in this network"
    		fi
 
-####
 
 	elif [ "$1" == "-rd" ]; then
 		echo "DEBUG: right delete"
