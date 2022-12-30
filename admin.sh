@@ -69,7 +69,7 @@ host () { # $1 = -a or -r and $2 is machine name
 }
 
 
-user () { # $1 = -ua/-ud or -ra/-rd and $2 is username, $3, boucle pls args hosts
+user () { # -ua/-ud or -ra/-r
 	# user: add/delete user, droits machines (for $#)
 	# -ua/ -ud <user> <*machines>
 
@@ -77,10 +77,26 @@ user () { # $1 = -ua/-ud or -ra/-rd and $2 is username, $3, boucle pls args host
 	if [ "$1" == "-ua" ]; then
 		echo "DEBUG: user add"
 		read -p 'User name: ' username
-		read -p 'Passwd: ' passwd
-		read -p 'Permissions: ' permissions
-		# TODO: if user exists:
-		# TODO JQ: -user-add: add user account to the account.json
+		exist=false
+		for ((i=0; i<=$(jq 'length' env/account.json); i++))
+		do
+   			usercheck=$(jq '.['$i'].name' env/account.json)
+
+   			if [ "${usercheck:1:-1}" = "$username" ]; then
+   				exist=true
+   				# TODO: if exist: change passwd/permissions
+   				read -p 'Passwd: ' passwd
+   				# TODO: afficher permissions actuelles
+				read -p 'Permissions: ' permissions
+				# TODO: jq request to add / edit passwd/permissions
+   				break
+   			fi
+   		done
+
+   		if [ !$exist ]; then
+   			echo "$username doesn't exist in this network, we are building one"
+   			# TODO: add a user, with passwd and permissions
+   		fi
 
 	elif [ "$1" == "-ud" ]; then
 		read -p 'User name to delete: ' username
@@ -101,8 +117,36 @@ user () { # $1 = -ua/-ud or -ra/-rd and $2 is username, $3, boucle pls args host
 	elif [ "$1" == "-ra" ]; then
 		echo "DEBUG: right add"
 		# TODO: -right-add
-		# jq '.access.allowed_users += ["test32"]'
-		# jq '.[] | select(.name == "'$2'") | '
+
+		for ((i=0; i<=$(jq 'length' env/host.json); i++))
+		do
+   			usercheck=$(jq '.['$i'].name' env/host.json)
+
+   			if [ "${usercheck:1:-1}" = "$username" ]; then
+   				exist=true
+   				# TODO: if exist: add permissions
+   				# TODO: afficher permissions actuelles
+   				IFS=' '
+   				read -a 'New host permissions (separated by a space): ' permissions
+   				for element in $permissions
+   				do
+   					# TODO check that host exist
+   					# TODO add permissions[0], permissions[1] with jq
+   				done
+
+				
+
+				# TODO: jq request to add / edit passwd/permissions
+   				break
+   			fi
+   		done
+
+   		if [ !$exist ]; then
+   			echo "$username doesn't exist in this network, we are building one"
+   			# TODO: add a user, with passwd and permissions
+   		fi
+
+####
 
 	elif [ "$1" == "-rd" ]; then
 		echo "DEBUG: right delete"
