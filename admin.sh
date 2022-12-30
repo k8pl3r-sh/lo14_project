@@ -84,7 +84,7 @@ user () { # -ua/-ud or -ra/-r
    			if [ "${usercheck:1:-1}" = "$username" ]; then
    				exist=true
    				# TODO: if exist: change passwd/permissions
-   				read -p 'Passwd: ' passwd
+   				read -p 'Password: ' passwd
    				# TODO: afficher permissions actuelles
 				read -p 'Permissions: ' permissions
 				# TODO: jq request to add / edit passwd/permissions
@@ -205,17 +205,15 @@ while true; do
 			;;
 
 		"user" )
-			user # ONGOING
+			user
 			;;
 
 		"wall" )
-			echo "wall"
-			# TODO
+			wall
 			;;
 
 		"afinger" )
-			echo "afinger"
-			# TODO
+			afinger
 			;;
 
 		"help" )
@@ -228,7 +226,7 @@ while true; do
 
 		"exit")
 			# TODO: à vérifier
-        	echo "Vous quittez $machine"
+        	echo "You quit $machine"
       		jq '.['$i'].isConnected |= false' env/account.json > env/temp.json && mv env/temp.json env/account.json
       		break
       		;;

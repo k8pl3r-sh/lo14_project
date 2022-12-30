@@ -12,13 +12,13 @@ i=$3
 # Comptage + lecture des messages
 nbMessage=$(jq '.['$i'].message | length' env/account.json)
 if [ $nbMessage -eq 0 ]; then
-    echo "Vous n'avez pas de nouveau message" 
+    echo "You have no new message" 
   elif [ $nbMessage -eq 1 ]; then
-    echo "Vous avez un nouveau message"
+    echo "You have a new message"
       message=$(jq '.['$i'].message[0]' env/account.json)
       echo "Message : $message"    
   else
-    echo "Vous avez $nbMessage nouveaux messages"
+    echo "You have $nbMessage new messages"
     ((nbMessage--))
     for ((m=0; m<=$nbMessage; m++))
     do
@@ -64,7 +64,7 @@ while true; do
       write
       ;;
     "exit")
-      echo "Vous quittez $machine"
+      echo "You quit $machine"
       jq '.['$i'].isConnected |= false' env/account.json > env/temp.json && mv env/temp.json env/account.json
       break
       ;;

@@ -29,15 +29,15 @@ if [ "$1" == "-connect" ]; then
          		permQuoted=$(jq '.['$i'].permissions['$j']' env/account.json)
          		permCheck="${permQuoted:1:-1}"
          		if [ "$permCheck" = "$machine" ]; then 
-            		echo "Bonjour $user" 
-            		read -sp 'Mot de passe : ' passvar
+            		echo "Hello $user" 
+            		read -sp 'Password : ' passvar
             		passQuoted=$(jq '.['$i'].passwd' env/account.json)
             		passCheck="${passQuoted:1:-1}"
                			if [ "$(echo "$passvar" | md5sum )" == "$passCheck" ]; then
-                  			echo "Mot de passe correct"
+                  			echo "Login success"
                   			./user.sh $user $machine $i
                			else
-                  			echo "Mot de passe incorrect, veuillez réessayer"
+                  			echo "Invalid password, please retry"
 							continue
                			fi
          		fi
@@ -47,16 +47,16 @@ if [ "$1" == "-connect" ]; then
 
 # Admin connection
 elif [ "$1" == "-admin" ]; then
-	echo "Bonjour admin" 
-    read -sp 'Mot de passe : ' passvar
+	echo "Hello admin" 
+    read -sp 'Password : ' passvar
     passQuoted=$(jq '.['0'].passwd' env/account.json)
     passCheck="${passQuoted:1:-1}"
 
     if [ "$(echo "$passvar" | md5sum )" == "$passCheck" ]; then # TODO: à réparer
-        echo "Mot de passe correct"
+        echo "Login success"
         ./admin.sh 
     else
-        echo "Mot de passe incorrect, veuillez réessayer"
+        echo "Invalid password, please retry"
     fi
 
 else
