@@ -117,10 +117,10 @@ user () { # -ua/-ud or -ra/-r
 	elif [ "$1" == "-ra" ]; then
 		echo "DEBUG: right add"
 		# TODO: -right-add
-
-		for ((i=0; i<=$(jq 'length' env/host.json); i++))
+		read -p 'User name: ' username
+		for ((i=0; i<=$(jq 'length' env/account.json); i++))
 		do
-   			usercheck=$(jq '.['$i'].name' env/host.json)
+   			usercheck=$(jq '.['$i'].name' env/account.json)
 
    			if [ "${usercheck:1:-1}" = "$username" ]; then
    				exist=true
@@ -145,6 +145,30 @@ user () { # -ua/-ud or -ra/-r
 	elif [ "$1" == "-rd" ]; then
 		echo "DEBUG: right delete"
 		# TODO: -right-delete
+
+		read -p 'User name: ' username
+		for ((i=0; i<=$(jq 'length' env/account.json); i++))
+		do
+   			usercheck=$(jq '.['$i'].name' env/account.json)
+
+   			if [ "${usercheck:1:-1}" = "$username" ]; then
+   				exist=true
+   				# TODO: if exist: add permissions
+   				# TODO: afficher permissions actuelles
+   				IFS=' '
+   				read -a 'Delete host permissions (separated by a space): ' permissions
+   				for element in $permissions
+   				do
+   					# TODO check that host exist
+   					# TODO remove permissions[0], permissions[1] with jq
+   				done
+   				break
+   			fi
+   		done
+
+   		if [ !$exist ]; then
+   			echo "$username doesn't exist in this network"
+   		fi
 
 	else
 		echo "Please retry using <-ua | -ud | -ra | -rd> respectively for user add/delete and right add/delete"
