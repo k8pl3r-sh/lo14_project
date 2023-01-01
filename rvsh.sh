@@ -11,16 +11,16 @@ if [ "$1" == "-connect" ]; then
 		echo "Retry by providing <machine_name> and <username> please"
 	fi
 
-	for ((i=0; i<=$(jq 'length' env/account.json); i++))
+	for ((i=0; i<=$(jq 'length' env/account.json); i++))  # Search in all available users
 	do
    		userQuoted=$(jq '.['$i'].name' env/account.json)
    		userCheck="${userQuoted:1:-1}"
-   		if [ "$userCheck" = "$user" ]; then 
+   		if [ "$userCheck" = "$user" ]; then # if user exists ...
       		for ((j=0; j<=$(jq '.['$i'].permissions | length' env/account.json); j++))
       		do
          		permQuoted=$(jq '.['$i'].permissions['$j']' env/account.json)
          		permCheck="${permQuoted:1:-1}"
-         		if [ "$permCheck" = "$machine" ]; then 
+         		if [ "$permCheck" = "$machine" ]; then # specific user permission check
             		echo "Hello $user" 
             		read -sp 'Password : ' passvar
             		passQuoted=$(jq '.['$i'].passwd' env/account.json)

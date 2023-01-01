@@ -20,10 +20,10 @@ Options:
 `-r <hostname ...>`
 `wall` `msg` or `-n msg`
 
+Don't hesitate to use the command `help` to see commands and options specifically created
+
 
 # TODO
-- commenter tout le code
-- check exit admin 
 
 - admin.sh: 
 	-> host: admin permissions for all hosts created

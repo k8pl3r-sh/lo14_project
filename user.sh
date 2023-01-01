@@ -72,7 +72,7 @@ while true; do
       help_user
       ;;
     *)
-      # Default : on lance la chaine en bash
+      # Default : command in bash
       eval $input
       ;;
   esac
