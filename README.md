@@ -22,7 +22,6 @@ Options:
 
 
 # TODO
-- delete variables in rvsh: password test and root for admin
 - commenter tout le code
 - check exit admin 
 
