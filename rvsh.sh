@@ -1,14 +1,6 @@
 #!/bin/bash
 
 
-########################## VARIABLES #############################
-
-# TO DELETE BEFORE USING IT IN PROD
-passwd='74cc1c60799e0a786ac7094b532f01b1' # root md5sum
-
-passwordUser="d8e8fca2dc0f896fd7cb4cb0031ba249" # test md5sum
-
-
 ########################## MAIN #############################
 
 # User connection
