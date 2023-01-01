@@ -94,7 +94,20 @@ user () { # -ua/-ud or -ra/-r
 
    		if [ !$exist ]; then
    			echo "$username doesn't exist in this network, we are building one"
-   			# TODO: add a user, with passwd and permissions
+   			i= # todo lenght + 1
+
+   			read -sp 'New password: ' newPasswd1
+        	echo ""
+        	read -sp 'New password (again): ' newPasswd2
+          	if [ "$newPasswd1" == "$newPasswd2" ]; then
+            	jq --arg newPasswd "$(echo "$newPasswd1" | md5sum )" '.['$i'].passwd |= $newPasswd' env/account.json > env/temp.json && mv env/temp.json env/account.json
+            	echo ""
+            	echo "Password change successful"
+          	else
+            	echo "Passwords are not the same"
+          	fi
+   			# TODO: add a user, with $passwd and $username jquery
+   			echo "$username has been created"
    		fi
 
 	elif [ "$1" == "-ud" ]; then
@@ -225,7 +238,6 @@ while true; do
 			;;
 
 		"exit")
-			# TODO: à vérifier
         	echo "You quit $machine"
       		jq '.[0].isConnected |= false' env/account.json > env/temp.json && mv env/temp.json env/account.json
       		break
