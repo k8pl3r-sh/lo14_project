@@ -143,31 +143,24 @@ user () { # -ua/-ud or -ra/-rd
    		done
 
 	elif [ "$1" == "-ra" ]; then
-		# TODO: -right-add
 		read -p 'User name: ' username
 		for ((i=0; i<=$(jq 'length' env/account.json); i++))
 		do
    			usercheck=$(jq '.['$i'].name' env/account.json)
-
    			if [ "${usercheck:1:-1}" = "$username" ]; then
    				exist="true"
-   				# TODO: if exist: add permissions
    				jq '.['$i'].permissions' env/account.json
-   				IFS=' '
-   				read -a 'New host permissions (separated by a space): ' permissions
-   				for element in $permissions
-   				do
-					for ((i=0; i<=$(jq 'length' env/host.json); i++))
-					do
-			   			host_check=$(jq '.['$i'].name' env/host.json)
-
-			   			if [ "${host_check:1:-1}" = "$element" ]; then
-			   				# TODO add right if doesn't exist on the account
-			   				# add permissions[0], permissions[1] with jq
-			   				echo ""
-			   			fi
-			   		done
-   				done
+   				read -p 'New host permission : ' changePermissions
+				for ((i=0; i<=$(jq 'length' env/host.json); i++))
+				do
+			   		host_check=$(jq '.['$i'].name' env/host.json)
+			   		if [ "${host_check:1:-1}" = "$changePermissions" ]; then
+						#TODO add permissions
+						newPermissions=$(jq '.[1].permissions + ["machine5"]' env/account.json)
+						echo $newPermissions
+						jq --arg newPermissions "$(echo "$newPermissions")" '.['$i'].passwd |= $newPasswd' env/account.json > env/temp.json && mv env/temp.json env/account.json
+			   		fi
+			   	done
    				break
    			fi
    		done
