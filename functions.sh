@@ -50,7 +50,6 @@ rconnect () {
 
 su_ () {
   # Command su_ because su command exists in bash 
-  # TODO : Admin se fait kick lorsque qu'il lance su
       if [ "$newUser" == "$user" ]; then
         echo "You are already connected as $newUser"
       elif [ "$newUser" == "admin" ]; then

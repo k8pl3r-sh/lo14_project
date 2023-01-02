@@ -265,6 +265,10 @@ while true; do
 			passwd
 			;;
 
+		"su" )
+			su_
+			;;
+
 		"exit")
         	echo "You quit $machine"
       		jq '.[0].isConnected |= false' env/account.json > env/temp.json && mv env/temp.json env/account.json
