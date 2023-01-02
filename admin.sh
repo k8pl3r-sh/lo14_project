@@ -22,7 +22,7 @@ help_admin () {
 
 host () { # $1 = -a or -r and $2 is machine name
 
-	if [[ -z "$1" || -z "$2" ]]; then # Check that user and machine variables are not empty
+	if [[ -z "$1" || -z "$2" ]]; then # It check that user and machine variables are not empty
 		echo "Retry by providing option <-a add | -r remove> and <hostname> please"
 	fi
 
@@ -45,7 +45,7 @@ host () { # $1 = -a or -r and $2 is machine name
    			t=$(jq 'length' env/host.json) # add an item to the lenght -1 position
 			jq --arg n "$2" '.['$t']={"name": $n}' env/host.json > env/temp.json && mv env/temp.json env/host.json
 			echo "$2 has been created"
-			# TODO: add permission for admin to access to the host
+			# TODO: add permission for admin to access to the host jq query
 		fi
 
 		
@@ -72,9 +72,7 @@ user () { # -ua/-ud or -ra/-r
 	# user: add/delete user, droits machines (for $#)
 	# -ua/ -ud <user> <*machines>
 
-	echo "DEBUG: user function"
 	if [ "$1" == "-ua" ]; then
-		echo "DEBUG: user add"
 		read -p 'User name: ' username
 		exist=false
 		for ((i=0; i<=$(jq 'length' env/account.json); i++))
@@ -105,8 +103,9 @@ user () { # -ua/-ud or -ra/-r
             	echo "Password change successful"
           	else
             	echo "Passwords are not the same"
+            	break
           	fi
-   			# TODO: add a user, with $passwd and $username jquery
+   			# TODO: add a user, with $passwd and $username jq query
    			echo "$username has been created"
    		fi
 
@@ -127,7 +126,6 @@ user () { # -ua/-ud or -ra/-r
    		done
 
 	elif [ "$1" == "-ra" ]; then
-		echo "DEBUG: right add"
 		# TODO: -right-add
 		read -p 'User name: ' username
 		for ((i=0; i<=$(jq 'length' env/account.json); i++))
@@ -142,13 +140,20 @@ user () { # -ua/-ud or -ra/-r
    				read -a 'New host permissions (separated by a space): ' permissions
    				for element in $permissions
    				do
-					echo "test"
-   					# TODO check that host exist
-   					# TODO add permissions[0], permissions[1] with jq
+					for ((i=0; i<=$(jq 'length' env/host.json); i++))
+					do
+			   			host_check=$(jq '.['$i'].name' env/host.json)
+
+			   			if [ "${host_check:1:-1}" = "$element" ]; then
+			   				# TODO add right if doesn't exist on the account
+			   				# add permissions[0], permissions[1] with jq
+			   			fi
+			   		done
    				done
-				break
+   				break
    			fi
    		done
+
 
    		if [ !$exist ]; then
    			echo "$username doesn't exist in this network"
@@ -156,8 +161,6 @@ user () { # -ua/-ud or -ra/-r
 
 
 	elif [ "$1" == "-rd" ]; then
-		echo "DEBUG: right delete"
-		# TODO: -right-delete
 
 		read -p 'User name: ' username
 		for ((i=0; i<=$(jq 'length' env/account.json); i++))
@@ -166,15 +169,20 @@ user () { # -ua/-ud or -ra/-r
 
    			if [ "${usercheck:1:-1}" = "$username" ]; then
    				exist=true
-   				# TODO: if exist: add permissions
-   				# TODO: afficher permissions actuelles
+   				# TODO: afficher permissions actuelles jq
    				IFS=' '
    				read -a 'Delete host permissions (separated by a space): ' permissions
    				for element in $permissions
    				do
-					echo "test"
-   					# TODO check that host exist
-   					# TODO remove permissions[0], permissions[1] with jq
+					for ((i=0; i<=$(jq 'length' env/host.json); i++))
+					do
+			   			host_check=$(jq '.['$i'].name' env/host.json)
+
+			   			if [ "${host_check:1:-1}" = "$element" ]; then
+			   				# TODO delete right if exist on the account
+			   				# remove permissions[0], permissions[1] with jq
+			   			fi
+			   		done
    				done
    				break
    			fi
@@ -203,7 +211,7 @@ afinger () { # $1 user to edit infos of a user
     echo "####### EDITION ########"
     read -p 'Phone (enter doesn t edit): ' phone
     read -p 'Job: ' job
-    # TODO check if not empty
+    # TODO check if not empty xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     # TODO: add "phone": "06"
     # TODO: add "job": "xxxx"
 
