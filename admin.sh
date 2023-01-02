@@ -27,21 +27,21 @@ host () { # $1 = -a or -r and $2 is machine name
 	fi
 
 	if [ "$1" == "-a" ]; then # ADD HOST
-		exist=false
+		exist="false"
 		for ((i=0; i<=$(jq 'length' env/host.json); i++))
 		do
    			hostname=$(jq '.['$i'].name' env/host.json)
 
    			if [ "${hostname:1:-1}" = "$2" ]; then
-   				exist=true
+   				exist="true"
    				break
    			fi
    		done
 
-   		if [ $exist ]; then
+   		if [ $exist == "true"]; then
    			echo "$2 host exist already, please choose another name"
 
-   		elif [ !$exist ]; then
+   		elif [ $exist == "false" ]; then
    			t=$(jq 'length' env/host.json) # add an item to the lenght -1 position
 			jq --arg n "$2" '.['$t']={"name": $n}' env/host.json > env/temp.json && mv env/temp.json env/host.json
 			echo "$2 has been created"
@@ -150,9 +150,9 @@ user () { # -ua/-ud or -ra/-rd
    			usercheck=$(jq '.['$i'].name' env/account.json)
 
    			if [ "${usercheck:1:-1}" = "$username" ]; then
-   				exist=true
+   				exist="true"
    				# TODO: if exist: add permissions
-   				# TODO: afficher permissions actuelles
+   				jq '.['$i'].permissions' env/account.json
    				IFS=' '
    				read -a 'New host permissions (separated by a space): ' permissions
    				for element in $permissions
@@ -173,7 +173,7 @@ user () { # -ua/-ud or -ra/-rd
    		done
 
 
-   		if [ !$exist ]; then
+   		if [ $exist == "false" ]; then
    			echo "$username doesn't exist in this network"
    		fi
 
@@ -186,7 +186,7 @@ user () { # -ua/-ud or -ra/-rd
    			usercheck=$(jq '.['$i'].name' env/account.json)
 
    			if [ "${usercheck:1:-1}" = "$username" ]; then
-   				exist=true
+   				exist="true"
    				# TODO: afficher permissions actuelles jq
    				IFS=' '
    				read -a 'Delete host permissions (separated by a space): ' permissions
@@ -207,7 +207,7 @@ user () { # -ua/-ud or -ra/-rd
    			fi
    		done
 
-   		if [ !$exist ]; then
+   		if [ $exist == "false" ]; then
    			echo "$username doesn't exist in this network"
    		fi
 
