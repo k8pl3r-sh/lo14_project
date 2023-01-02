@@ -3,8 +3,6 @@
 # users functions that can be also used by the admin
 
 who () {
-  # Traitement pour "who" X
-      echo "You have enter 'who'"
       for ((w=0; w<=$(jq 'length' env/account.json); w++))
       do 
         for ((j=0; j<=$(jq '.['$w'].permissions | length' env/account.json); j++))
@@ -23,8 +21,6 @@ who () {
 }
 
 rusers () {
-  # Traitement pour "rusers"
-  # TODO: if admin pas de echo "sur", soucis quentin et john non connecté (à tester en admin aussi)
       rusers=$(( $(jq 'length' env/account.json) - 1 ))
       for ((u=0; u<=$rusers; u++))
       do 
@@ -41,13 +37,11 @@ rusers () {
 }
 
 rhost () {
-  # Traitement pour "rhost" X
       hostList=$(jq '.[] | .name' env/host.json)
       echo "List of hosts : $hostList"
 }
 
 rconnect () {
-  # Traitement pour "rconnect" X
       read -p 'New host: ' newMachine
       ./rvsh.sh -connect $newMachine $user
       echo "This host doesn't exist"
@@ -55,8 +49,8 @@ rconnect () {
 }
 
 su_ () {
-  # Command su_ because su command exists in bash
-  # Traitement pour "su" X
+  # Command su_ because su command exists in bash 
+  # TODO : Admin se fait kick lorsque qu'il lance su
       if [ "$newUser" == "$user" ]; then
         echo "You are already connected as $newUser"
       elif [ "$newUser" == "admin" ]; then
@@ -67,7 +61,6 @@ su_ () {
 }
 
 passwd () {
-  # Traitement pour "passwd" X
       echo "Change password"
       read -sp 'Current password : ' passvar
       passQuoted=$(jq '.['$i'].passwd' env/account.json)
@@ -91,18 +84,31 @@ passwd () {
 }
 
 finger () {
-  # Traitement pour "finger" X -> vrai utilité ?  
-      read -p 'User: ' userInfo
-      info=$(jq '.[] | select(.name == "'$userInfo'")' env/account.json)
-      echo $info
+  read -p 'User: ' userInfo
+  info=$(jq '.[] | select(.name == "'$userInfo'")' env/account.json)
+  echo $info
 }
 
 write () {
-  # Traitement pour "write" TODO # $1=user, $2=machine, $3=message # Comment faire pour récupérer les variables à la suite de la commande ?
-      if [ "$1" == "" ]; then # user
-        echo "You can't use this command"
-        continue
-      fi
+  # TODO : add un spliter pour mettre @ entre user et machine 
+  if [ $# -eq 3 ]; then
+    for ((w=0; w<=$(jq 'length' env/account.json); w++))
+    do 
+      userCheck=$(jq '.['$w'].name' env/account.json)
+        if [ "${userCheck:1:-1}" == "$1" ]; then
+          for ((j=0; j<=$(jq '.['$w'].permissions | length' env/account.json); j++))
+          do
+            permCheck=$(jq '.['$w'].permissions['$j']' env/account.json)
+            if [ "${permCheck:1:-1}" = "$2" ]; then 
+              jq --arg message "$3" '.['$w'].message |= . + [$message]' env/account.json > env/temp.json && mv env/temp.json env/account.json
+              echo "Le message $3 a bien été envoyé à $1 sur la machine $2"
+            fi
+          done
+        fi
+    done
+  else 
+    echo "Use the command 'write' with a message, like 'write user machine_name message' "
+  fi
 }
 
 help_user () {
