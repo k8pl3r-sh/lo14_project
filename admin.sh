@@ -74,15 +74,13 @@ user () { # -ua/-ud or -ra/-rd
 
 	if [ "$1" == "-ua" ]; then
 		read -p 'User name: ' username
-		exist=false
+		exist="false"
 		for ((i=0; i<=$(jq 'length' env/account.json); i++))
 		do
    			usercheck=$(jq '.['$i'].name' env/account.json)
-			# TODO: jq request to add / edit passwd/permissions
 
    			if [ "${usercheck:1:-1}" = "$username" ]; then
-   				exist=true
-   				# TODO: if exist: change passwd/permissions
+   				exist="true"
 				echo 'Name:'
 				jq '.['$i'].name' env/account.json
 				echo 'Password:'
@@ -104,23 +102,15 @@ user () { # -ua/-ud or -ra/-rd
 		  			fi
 				else
 					echo "Password not changed"
+					break
 				fi
-
-				read -p 'Change permissions ? (y/n): ' changePermissions
-				if [ "$changePermissions" == "y" ]; then
-					echo "TODO: change permissions"
-				else
-					echo "Permissions not changed"
-				fi
-
-   				break
    			fi
    		done
 
-   		if [ !$exist ]; then
+   		if [ $exist == "false" ]; then
    			echo "$username doesn't exist in this network, we are building one"
-   			i= # todo lenght + 1
-
+   			k=$(jq length env/account.json)
+			i=$(($k+1))
    			read -sp 'New password: ' newPasswd1
         	echo ""
         	read -sp 'New password (again): ' newPasswd2
