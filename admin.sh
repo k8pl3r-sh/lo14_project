@@ -115,14 +115,17 @@ user () { # -ua/-ud or -ra/-rd
         	echo ""
         	read -sp 'New password (again): ' newPasswd2
           	if [ "$newPasswd1" == "$newPasswd2" ]; then
-            	jq --arg newPasswd "$(echo "$newPasswd1" | md5sum )" '.['$i'].passwd |= $newPasswd' env/account.json > env/temp.json && mv env/temp.json env/account.json
-            	echo ""
-            	echo "Password change successful"
+            	echo "Passwords are the same"
           	else
             	echo "Passwords are not the same"
             	break
           	fi
-   			# TODO: add a user, with $passwd and $username jq query
+			jq '.['$i'].name += "'$username'"' env/account.json > env/temp.json && mv env/temp.json env/account.json
+			jq --arg newPasswd "$(echo "$newPasswd1" | md5sum )" '.['$i'].passwd |= $newPasswd' env/account.json > env/temp.json && mv env/temp.json env/account.json
+			jq '.['$i'].permissions += []' env/account.json > env/temp.json && mv env/temp.json env/account.json
+			jq '.['$i'].message += []' env/account.json > env/temp.json && mv env/temp.json env/account.json
+			jq '.['$i'].isConnected += false' env/account.json > env/temp.json && mv env/temp.json env/account.json
+			jq '.['$i'].lastConnected += ""' env/account.json > env/temp.json && mv env/temp.json env/account.json
    			echo "$username has been created"
    		fi
 
@@ -224,9 +227,9 @@ afinger () { # $1 user to edit infos of a user
     read -p 'Phone (enter doesn t edit): ' phone
     read -p 'Job: ' job
     if [[ -z "$phone" || -z "$job" ]]; then
-    	# TODO: add "phone": "06" with jq
-    	# TODO: add "job": "xxxx" with jq
-    	echo "" # line to delete
+		#TODO Check if working
+		jq '.['$i'].phone += "'$phone'"' env/account.json > env/temp.json && mv env/temp.json env/account.json
+    	jq '.['$i'].job += "'$job'"' env/account.json > env/temp.json && mv env/temp.json env/account.json
     else
     	echo "You have specified no info"
     fi
