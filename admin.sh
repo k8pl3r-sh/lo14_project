@@ -151,55 +151,47 @@ user () { # -ua/-ud or -ra/-rd
    				exist="true"
    				jq '.['$i'].permissions' env/account.json
    				read -p 'New host permission : ' changePermissions
-				for ((i=0; i<=$(jq 'length' env/host.json); i++))
+				for ((r=0; r<=$(jq 'length' env/host.json); r++))
 				do
-			   		host_check=$(jq '.['$i'].name' env/host.json)
+			   		host_check=$(jq '.['$r'].name' env/host.json)
 			   		if [ "${host_check:1:-1}" = "$changePermissions" ]; then
-						#TODO add permissions
-						newPermissions=$(jq '.[1].permissions + ["machine5"]' env/account.json)
-						echo $newPermissions
-						jq --arg newPermissions "$(echo "$newPermissions")" '.['$i'].passwd |= $newPasswd' env/account.json > env/temp.json && mv env/temp.json env/account.json
+						jq '.['$i'].permissions += ["'$changePermissions'"]' env/account.json > env/temp.json && mv env/temp.json env/account.json
+						echo "Permission added :"
+						jq '.['$i'].permissions' env/account.json
 			   		fi
 			   	done
    				break
    			fi
    		done
 
-
+		# TODO corriger le bug quand user est faux 
    		if [ $exist == "false" ]; then
    			echo "$username doesn't exist in this network"
    		fi
 
-
 	elif [ "$1" == "-rd" ]; then
-
 		read -p 'User name: ' username
 		for ((i=0; i<=$(jq 'length' env/account.json); i++))
 		do
    			usercheck=$(jq '.['$i'].name' env/account.json)
-
    			if [ "${usercheck:1:-1}" = "$username" ]; then
    				exist="true"
-   				# TODO: afficher permissions actuelles jq
-   				IFS=' '
-   				read -a 'Delete host permissions (separated by a space): ' permissions
-   				for element in $permissions
-   				do
-					for ((i=0; i<=$(jq 'length' env/host.json); i++))
-					do
-			   			host_check=$(jq '.['$i'].name' env/host.json)
-
-			   			if [ "${host_check:1:-1}" = "$element" ]; then
-			   				# TODO delete right if exist on the account
-			   				# remove permissions[0], permissions[1] with jq
-			   				echo ""
-			   			fi
-			   		done
-   				done
+   				jq '.['$i'].permissions' env/account.json
+   				read -p 'Delete host permission : ' changePermissions
+				for ((r=0; r<=$(jq 'length' env/host.json); r++))
+				do
+			   		permissionsCheck=$(jq '.['$i'].permissions['$r']' env/account.json)
+			   		if [ "${permissionsCheck:1:-1}" = "$changePermissions" ]; then
+						jq '.['$i'].permissions -= ["'$changePermissions'"]' env/account.json > env/temp.json && mv env/temp.json env/account.json
+						echo "Permission deleted :"
+						jq '.['$i'].permissions' env/account.json
+			   		fi
+			   	done
    				break
    			fi
    		done
 
+		# TODO corriger le bug quand user est faux 
    		if [ $exist == "false" ]; then
    			echo "$username doesn't exist in this network"
    		fi
