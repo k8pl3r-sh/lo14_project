@@ -68,8 +68,8 @@ host () { # $1 = -a or -r and $2 is machine name
 }
 
 
-user () { # -ua/-ud or -ra/-r
-	# user: add/delete user, droits machines (for $#)
+user () { # -ua/-ud or -ra/-rd
+	# user: add/delete user, add/delete droits machines (for $#)
 	# -ua/ -ud <user> <*machines>
 
 	if [ "$1" == "-ua" ]; then
@@ -78,14 +78,41 @@ user () { # -ua/-ud or -ra/-r
 		for ((i=0; i<=$(jq 'length' env/account.json); i++))
 		do
    			usercheck=$(jq '.['$i'].name' env/account.json)
+			# TODO: jq request to add / edit passwd/permissions
 
    			if [ "${usercheck:1:-1}" = "$username" ]; then
    				exist=true
    				# TODO: if exist: change passwd/permissions
-   				read -p 'Password: ' passwd
-   				# TODO: afficher permissions actuelles
-				read -p 'Permissions: ' permissions
-				# TODO: jq request to add / edit passwd/permissions
+				echo 'Name:'
+				jq '.['$i'].name' env/account.json
+				echo 'Password:'
+				jq '.['$i'].passwd' env/account.json
+				echo 'Permissions:'
+				jq '.['$i'].permissions' env/account.json
+
+				read -p 'Change password ? (y/n): ' changePasswd
+				if [ "$changePasswd" == "y" ]; then
+					read -sp 'New password: ' newPasswd1
+					echo ""
+					read -sp 'New password (again): ' newPasswd2
+		  			if [ "$newPasswd1" == "$newPasswd2" ]; then
+						jq --arg newPasswd "$(echo "$newPasswd1" | md5sum )" '.['$i'].passwd |= $newPasswd' env/account.json > env/temp.json && mv env/temp.json env/account.json
+						echo "Password change successful"
+		  			else
+						echo "Passwords are not the same"
+						break
+		  			fi
+				else
+					echo "Password not changed"
+				fi
+
+				read -p 'Change permissions ? (y/n): ' changePermissions
+				if [ "$changePermissions" == "y" ]; then
+					echo "TODO: change permissions"
+				else
+					echo "Permissions not changed"
+				fi
+
    				break
    			fi
    		done
