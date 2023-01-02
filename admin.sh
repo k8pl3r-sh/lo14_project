@@ -147,6 +147,7 @@ user () { # -ua/-ud or -ra/-r
 			   			if [ "${host_check:1:-1}" = "$element" ]; then
 			   				# TODO add right if doesn't exist on the account
 			   				# add permissions[0], permissions[1] with jq
+			   				echo ""
 			   			fi
 			   		done
    				done
@@ -181,6 +182,7 @@ user () { # -ua/-ud or -ra/-r
 			   			if [ "${host_check:1:-1}" = "$element" ]; then
 			   				# TODO delete right if exist on the account
 			   				# remove permissions[0], permissions[1] with jq
+			   				echo ""
 			   			fi
 			   		done
    				done
@@ -199,9 +201,17 @@ user () { # -ua/-ud or -ra/-r
 
 
 wall () {
-	# syntax: wall message: for connected users
-	# wall -n message: for all users
 	echo "DEBUG: wall function"
+	if [[ $1 == "-n" ]]; then
+		echo ${@:2}
+		# TODO: message for all users jq
+		
+
+
+	else
+		# TODO: message pr les users connectés jq
+		echo ${@:1}
+	fi
 }
 
 afinger () { # $1 user to edit infos of a user
@@ -211,9 +221,14 @@ afinger () { # $1 user to edit infos of a user
     echo "####### EDITION ########"
     read -p 'Phone (enter doesn t edit): ' phone
     read -p 'Job: ' job
-    # TODO check if not empty xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-    # TODO: add "phone": "06"
-    # TODO: add "job": "xxxx"
+    if [[ -z "$phone" || -z "$job" ]]; then
+    	# TODO: add "phone": "06" with jq
+    	# TODO: add "job": "xxxx" with jq
+    	echo "" # line to delete
+    else
+    	echo "You have specified no info"
+    fi
+    
 
 }
 
