@@ -65,9 +65,9 @@ host () { # $1 = -a or -r and $2 is machine name
 user () { # -ua/-ud or -ra/-rd
 	# user: add/delete user, add/delete droits machines (for $#)
 	# -ua/ -ud <user> <*machines>
+	exist="false"
 	if [ "$1" == "-ua" ]; then
 		read -p 'User name: ' username
-		exist="false"
 		for ((i=0; i<=$(jq 'length' env/account.json); i++))
 		do
    			usercheck=$(jq '.['$i'].name' env/account.json)
@@ -160,8 +160,7 @@ user () { # -ua/-ud or -ra/-rd
    			fi
    		done
 
-		# TODO corriger le bug quand user est faux 
-   		if [ $exist == "false" ]; then
+		if [ "$exist" == "false" ]; then
    			echo "$username doesn't exist in this network"
    		fi
 
@@ -187,8 +186,7 @@ user () { # -ua/-ud or -ra/-rd
    			fi
    		done
 
-		# TODO corriger le bug quand user est faux 
-   		if [ $exist == "false" ]; then
+   		if [ "$exist" == "false" ]; then
    			echo "$username doesn't exist in this network"
    		fi
 
