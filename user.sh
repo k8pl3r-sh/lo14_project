@@ -7,24 +7,6 @@ user=$1
 machine=$2
 i=$3
 
-# Comptage + lecture des messages
-nbMessage=$(jq '.['$i'].message | length' env/account.json)
-if [ $nbMessage -eq 0 ]; then
-    echo "You have no new message" 
-  elif [ $nbMessage -eq 1 ]; then
-    echo "You have a new message"
-      message=$(jq '.['$i'].message[0]' env/account.json)
-      echo "Message : $message"    
-  else
-    echo "You have $nbMessage new messages"
-    ((nbMessage--))
-    for ((m=0; m<=$nbMessage; m++))
-    do
-      message=$(jq '.['$i'].message['$m']' env/account.json)
-      echo "Message $m : $message"
-    done  
-  fi
-
 # Suppression des messages après lecture
 jq '.['$i'].message |= []' env/account.json > env/temp.json && mv env/temp.json env/account.json
 
@@ -74,4 +56,22 @@ while true; do
       eval $input
       ;;
   esac
+  nbMessage=$(jq '.['$i'].message | length' env/account.json)
+  if [ $nbMessage -eq 0 ]; then 
+    a=null
+  elif [ $nbMessage -eq 1 ]; then
+    echo "You have a new message"
+    message=$(jq '.['$i'].message[0]' env/account.json)
+    echo "Message : $message"    
+    jq '.['$i'].message |= []' env/account.json > env/temp.json && mv env/temp.json env/account.json
+  else
+    echo "You have $nbMessage new messages"
+    ((nbMessage--))
+    for ((m=0; m<=$nbMessage; m++))
+    do
+      message=$(jq '.['$i'].message['$m']' env/account.json)
+      echo "Message $m : $message"
+    done  
+    jq '.['$i'].message |= []' env/account.json > env/temp.json && mv env/temp.json env/account.json
+  fi
 done
