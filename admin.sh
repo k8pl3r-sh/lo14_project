@@ -144,15 +144,21 @@ user () { # -ua/-ud or -ra/-rd
    				exist="true"
    				jq '.['$i'].permissions' env/account.json
    				read -p 'New host permission : ' changePermissions
+				host_exist="false"
 				for ((r=0; r<=$(jq 'length' env/host.json); r++))
 				do
 			   		host_check=$(jq '.['$r'].name' env/host.json)
 			   		if [ "${host_check:1:-1}" = "$changePermissions" ]; then
+						host_exist="true"
 						jq '.['$i'].permissions += ["'$changePermissions'"]' env/account.json > env/temp.json && mv env/temp.json env/account.json
 						echo "Permission added :"
 						jq '.['$i'].permissions' env/account.json
 			   		fi
 			   	done
+
+				if [ "$host_exist" == "false" ]; then
+					echo "$changePermissions doesn't exist in this network"
+				fi
    				break
    			fi
    		done
@@ -170,15 +176,20 @@ user () { # -ua/-ud or -ra/-rd
    				exist="true"
    				jq '.['$i'].permissions' env/account.json
    				read -p 'Delete host permission : ' changePermissions
+				host_exist="false"
 				for ((r=0; r<=$(jq 'length' env/host.json); r++))
 				do
 			   		permissionsCheck=$(jq '.['$i'].permissions['$r']' env/account.json)
 			   		if [ "${permissionsCheck:1:-1}" = "$changePermissions" ]; then
+					host_exist="true"
 						jq '.['$i'].permissions -= ["'$changePermissions'"]' env/account.json > env/temp.json && mv env/temp.json env/account.json
 						echo "Permission deleted :"
 						jq '.['$i'].permissions' env/account.json
 			   		fi
 			   	done
+				if [ "$host_exist" == "false" ]; then
+					echo "$changePermissions doesn't exist in this network"
+				fi
    				break
    			fi
    		done
