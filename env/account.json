@@ -17,14 +17,9 @@
       "machine1",
       "machine2"
     ],
-    "message": [
-      "loool",
-      "2e",
-      "5e test",
-      "test final pour vérifier que tout marche bien"
-    ],
+    "message": [],
     "isConnected": "machine1",
-    "lastConnected": "02-01-2023 21:37:14"
+    "lastConnected": "03-01-2023 10:27:26"
   },
   {
     "name": "quentin",

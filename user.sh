@@ -7,8 +7,6 @@ user=$1
 machine=$2
 i=$3
 
-
-
 # Comptage + lecture des messages
 nbMessage=$(jq '.['$i'].message | length' env/account.json)
 if [ $nbMessage -eq 0 ]; then

@@ -89,7 +89,6 @@ finger () {
 }
 
 write () {
-  # TODO : add un spliter pour mettre @ entre user et machine
   if [ $# -ge 2 ]; then
   usr=$1
     for ((w=0; w<=$(jq 'length' env/account.json); w++))

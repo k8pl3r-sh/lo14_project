@@ -1,10 +1,9 @@
 #!/bin/bash
 
 echo  -e "\n####### ADMIN #######"
-# Variables TODO
+# Variables
 user="admin"
 machine="hostroot"
-i=0
 
 source functions.sh # to use user functions stored in the script
 
@@ -17,11 +16,9 @@ help_admin () {
 	echo "'wall' command allows you to     : send a message to all users on the network"
 	echo "'afinger' command allows you to  : add complementary informations for users"
 	echo "###################################### ADMIN ##########################################"
-
 }
 
 host () { # $1 = -a or -r and $2 is machine name
-
 	if [[ -z "$1" || -z "$2" ]]; then # It check that user and machine variables are not empty
 		echo "Retry by providing option <-a add | -r remove> and <hostname> please"
 	fi
@@ -48,8 +45,6 @@ host () { # $1 = -a or -r and $2 is machine name
 			# TODO: add permission for admin to access to the host jq query
 		fi
 
-		
-
 	elif [ "$1" == "-r" ]; then # REMOVE HOST
 		for ((i=0; i<=$(jq 'length' env/host.json); i++))
 		do
@@ -67,11 +62,9 @@ host () { # $1 = -a or -r and $2 is machine name
 	fi
 }
 
-
 user () { # -ua/-ud or -ra/-rd
 	# user: add/delete user, add/delete droits machines (for $#)
 	# -ua/ -ud <user> <*machines>
-
 	if [ "$1" == "-ua" ]; then
 		read -p 'User name: ' username
 		exist="false"
@@ -233,8 +226,6 @@ afinger () { # $1 user to edit infos of a user
     else
     	echo "You have specified no info"
     fi
-    
-
 }
 
 
