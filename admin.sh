@@ -4,8 +4,36 @@ echo  -e "\n####### ADMIN #######"
 # Variables
 user="admin"
 machine="hostroot"
+i=0
 
 source functions.sh # to use user functions stored in the script
+
+# Comptage + lecture des messages
+nbMessage=$(jq '.['$i'].message | length' env/account.json)
+if [ $nbMessage -eq 0 ]; then
+    echo "You have no new message" 
+  elif [ $nbMessage -eq 1 ]; then
+    echo "You have a new message"
+      message=$(jq '.['$i'].message[0]' env/account.json)
+      echo "Message : $message"    
+  else
+    echo "You have $nbMessage new messages"
+    ((nbMessage--))
+    for ((m=0; m<=$nbMessage; m++))
+    do
+      message=$(jq '.['$i'].message['$m']' env/account.json)
+      echo "Message $m : $message"
+    done  
+  fi
+
+# Suppression des messages après lecture
+jq '.['$i'].message |= []' env/account.json > env/temp.json && mv env/temp.json env/account.json
+
+# Mise à jour de lastConnected
+jq --arg connect "$(date +"%d-%m-%Y %H:%M:%S")" '.['$i'].lastConnected |= $connect' env/account.json > env/temp.json && mv env/temp.json env/account.json
+
+# Passage en mode isConnected
+jq --arg machine "$machine" '.['$i'].isConnected |= $machine' env/account.json > env/temp.json && mv env/temp.json env/account.json
 
 ########################## FUNCTIONS #############################
 help_admin () {
@@ -205,16 +233,32 @@ user () { # -ua/-ud or -ra/-rd
 
 
 wall () {
-	echo "DEBUG: wall function"
-	if [[ $1 == "-n" ]]; then
-		echo ${@:2}
-		# TODO: message for all users jq
-		
-
-
-	else
-		# TODO: message pr les users connectés jq
-		echo ${@:1}
+	if [ $# -ge 1 ]; then
+		if [[ $1 == "-n" ]]; then
+			# TODO: message for all users jq
+			shift 1
+			msg=$@
+			wMax=$(($(jq 'length' env/account.json)-1))
+			for ((w=0; w<=$wMax; w++))
+			do
+				jq --arg message "$msg" '.['$w'].message |= . + [$message]' env/account.json > env/temp.json && mv env/temp.json env/account.json
+			done
+			echo "Le message \"$msg\" a bien été envoyé à tous les utilisateurs"
+		else
+			# TODO: message pr les users connectés jq
+			msg=$@
+			wMax=$(($(jq 'length' env/account.json)-1))
+			for ((w=0; w<=$wMax; w++))
+			do
+				connectCheck=$(jq '.['$w'].isConnected' env/account.json)
+				if [ "$connectCheck" != false ]; then
+					jq --arg message "$msg" '.['$w'].message |= . + [$message]' env/account.json > env/temp.json && mv env/temp.json env/account.json
+				fi
+			done
+			echo "Le message \"$msg\" a bien été envoyé aux utilisateurs connectés"
+		fi
+	else 
+		echo "Please retry using <-n> for all users or nothing for connected users, and to add a message after"
 	fi
 }
 
