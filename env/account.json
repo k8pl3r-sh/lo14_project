@@ -2,40 +2,25 @@
   {
     "name": "admin",
     "passwd": "74cc1c60799e0a786ac7094b532f01b1  -",
-    "permissions": [
-      "hostroot",
-      "machine1"
-    ],
+    "permissions": ["hostroot", "machine1"],
     "message": [],
-    "isConnected": "hostroot",
-    "lastConnected": "03-01-2023 20:39:52"
+    "isConnected": false,
+    "lastConnected": "03-01-2023 20:42:18"
   },
   {
     "name": "paul",
     "passwd": "d8e8fca2dc0f896fd7cb4cb0031ba249  -",
-    "permissions": [
-      "machine1",
-      "machine2"
-    ],
-    "message": [
-      "slt",
-      "oui"
-    ],
-    "isConnected": "machine1",
-    "lastConnected": "03-01-2023 19:27:58"
+    "permissions": ["machine1", "machine2"],
+    "message": [],
+    "isConnected": false,
+    "lastConnected": "03-01-2023 20:41:41"
   },
   {
     "name": "quentin",
     "passwd": "d8e8fca2dc0f896fd7cb4cb0031ba249  -",
-    "permissions": [
-      "machine1",
-      "machine2"
-    ],
-    "message": [
-      "slt",
-      "oui"
-    ],
-    "isConnected": "machine1",
-    "lastConnected": "03-01-2023 19:29:57"
+    "permissions": ["machine1", "machine2"],
+    "message": [],
+    "isConnected": false,
+    "lastConnected": "03-01-2023 20:41:05"
   }
 ]
