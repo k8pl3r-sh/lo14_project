@@ -211,21 +211,32 @@ wall () {
 }
 
 afinger () { # $1 user to edit infos of a user
+	exist="false"
 	read -p 'User: ' userInfo
-    info=$(jq '.[] | select(.name == "'$userInfo'")' env/account.json)
-    echo $info
-    echo "####### EDITION ########"
-    read -p 'Phone (enter doesn t edit): ' phone
-    read -p 'Job: ' job
-    if [[ -z "$phone" || -z "$job" ]]; then
-		#TODO Check if working
-		jq '.['$i'].phone += "'$phone'"' env/account.json > env/temp.json && mv env/temp.json env/account.json
-    	jq '.['$i'].job += "'$job'"' env/account.json > env/temp.json && mv env/temp.json env/account.json
-    else
-    	echo "You have specified no info"
-    fi
-}
+	for ((f=0; f<=$(jq 'length' env/account.json); ++f))
+	do
+		userCheck=$(jq '.['$f'].name' env/account.json)
+		if [ "${userCheck:1:-1}" = "$userInfo" ]; then
+			exist="true"
+			info=$(jq '.['$f']' env/account.json)
+			echo $info
+    		echo "####### EDITION ########"
+    		read -p 'Phone (enter doesn t edit): ' phone
+    		read -p 'Job: ' job
+			echo "####### EDITION ########"
+    		if [[ -z "$phone" || -z "$job" ]]; then
+				echo "You have specified no info, please enter a phone number and a job"
+    		else
+				jq '.['$f'].phone += "'$phone'"' env/account.json > env/temp.json && mv env/temp.json env/account.json
+    			jq '.['$f'].job += "'$job'"' env/account.json > env/temp.json && mv env/temp.json env/account.json
+    		fi
+		fi
+	done
 
+	if [ "$exist" == "false" ]; then
+   			echo "$userInfo doesn't exist in this network"
+   		fi
+}
 
 while true; do
 	read -p "root@hostroot > " input
