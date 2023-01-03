@@ -19,7 +19,7 @@
     ],
     "message": [],
     "isConnected": "machine1",
-    "lastConnected": "03-01-2023 18:51:07"
+    "lastConnected": "03-01-2023 19:27:58"
   },
   {
     "name": "quentin",
@@ -29,7 +29,7 @@
       "machine2"
     ],
     "message": [],
-    "isConnected": false,
-    "lastConnected": "03-01-2023 18:50:26"
+    "isConnected": "machine1",
+    "lastConnected": "03-01-2023 19:29:57"
   }
 ]

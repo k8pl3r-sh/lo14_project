@@ -5,18 +5,12 @@
 who () {
       for ((w=0; w<=$(jq 'length' env/account.json); w++))
       do 
-        for ((j=0; j<=$(jq '.['$w'].permissions | length' env/account.json); j++))
-        do
-          permQuoted=$(jq '.['$w'].permissions['$j']' env/account.json)
-          permCheck="${permQuoted:1:-1}"
-          if [ "$permCheck" = "$machine" ]; then 
-            userQuoted=$(jq '.['$w'].name' env/account.json)
-            userCheck="${userQuoted:1:-1}"
-            lastConnectedQuoted=$(jq '.['$w'].lastConnected' env/account.json)
-            lastConnectedCheck="${lastConnectedQuoted:1:-1}"
-            echo "$userCheck $lastConnectedCheck"
-          fi
-        done
+        machineCheck=$(jq '.['$w'].isConnected' env/account.json)
+        if [ "${machineCheck:1:-1}" = "$machine" ]; then 
+          userCheck=$(jq '.['$w'].name' env/account.json)
+          lastConnectedCheck=$(jq '.['$w'].lastConnected' env/account.json)
+          echo "${userCheck:1:-1} : ${lastConnectedCheck:1:-1}"
+        fi
       done
 }
 
