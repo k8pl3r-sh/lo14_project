@@ -21,7 +21,7 @@ help_admin () {
 host () { # $1 = -a or -r and $2 is machine name
 	if [[ -z "$1" || -z "$2" ]]; then # It check that user and machine variables are not empty
 		jq '.[]' env/host.json
-		echo "Retry by providing option <-a add | -r remove> and <hostname> please"
+		echo "Retry by providing option <-a (add) | -r (remove)> and <hostname> please"
 
 	elif [ "$1" == "-a" ]; then # ADD HOST
 		exist="false"
@@ -100,8 +100,7 @@ user () { # -ua/-ud or -ra/-rd
 
    		if [ $exist == "false" ]; then
    			echo "$username doesn't exist in this network, we are building one"
-   			k=$(jq length env/account.json)
-			i=$(($k+1))
+   			i=$(jq length env/account.json)
    			read -sp 'New password: ' newPasswd1
         	echo ""
         	read -sp 'New password (again): ' newPasswd2
