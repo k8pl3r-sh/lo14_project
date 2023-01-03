@@ -98,7 +98,7 @@ write () {
           shift 1
           msg=$@
           jq --arg message "$msg" '.['$w'].message |= . + [$message]' env/account.json > env/temp.json && mv env/temp.json env/account.json
-          echo "Le message "$msg" a bien été envoyé à $usr"
+          echo "Le message \"$msg\" a bien été envoyé à $usr"
         fi
     done
   else 
