@@ -2,10 +2,7 @@
   {
     "name": "admin",
     "passwd": "74cc1c60799e0a786ac7094b532f01b1  -",
-    "permissions": [
-      "hostroot",
-      "machine1"
-    ],
+    "permissions": ["hostroot", "machine1"],
     "message": [],
     "isConnected": false,
     "lastConnected": "30-12-2022 00:12:27"
@@ -13,23 +10,15 @@
   {
     "name": "paul",
     "passwd": "d8e8fca2dc0f896fd7cb4cb0031ba249  -",
-    "permissions": [
-      "machine1",
-      "machine2"
-    ],
+    "permissions": ["machine1", "machine2"],
     "message": [],
-    "isConnected": "machine1",
-    "lastConnected": "03-01-2023 10:27:26",
-    "phone": "06ez",
-    "job": "ezfgrthgf"
+    "isConnected": false,
+    "lastConnected": "03-01-2023 10:27:26"
   },
   {
     "name": "quentin",
     "passwd": "d8e8fca2dc0f896fd7cb4cb0031ba249  -",
-    "permissions": [
-      "machine1",
-      "machine2"
-    ],
+    "permissions": ["machine1", "machine2"],
     "message": [],
     "isConnected": "machine1",
     "lastConnected": "03-01-2023 10:14:56"

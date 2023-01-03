@@ -20,25 +20,24 @@ help_admin () {
 
 host () { # $1 = -a or -r and $2 is machine name
 	if [[ -z "$1" || -z "$2" ]]; then # It check that user and machine variables are not empty
+		jq '.[]' env/host.json
 		echo "Retry by providing option <-a add | -r remove> and <hostname> please"
-	fi
 
-	if [ "$1" == "-a" ]; then # ADD HOST
+	elif [ "$1" == "-a" ]; then # ADD HOST
 		exist="false"
 		for ((i=0; i<=$(jq 'length' env/host.json); i++))
 		do
    			hostname=$(jq '.['$i'].name' env/host.json)
-
    			if [ "${hostname:1:-1}" = "$2" ]; then
    				exist="true"
    				break
    			fi
    		done
 
-   		if [ $exist == "true"]; then
+   		if [ "$exist" == "true" ]; then
    			echo "$2 host exist already, please choose another name"
 
-   		elif [ $exist == "false" ]; then
+   		elif [ "$exist" == "false" ]; then
    			t=$(jq 'length' env/host.json) # add an item to the lenght -1 position
 			jq --arg n "$2" '.['$t']={"name": $n}' env/host.json > env/temp.json && mv env/temp.json env/host.json
 			echo "$2 has been created"
