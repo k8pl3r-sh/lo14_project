@@ -89,24 +89,21 @@ finger () {
 }
 
 write () {
-  # TODO : add un spliter pour mettre @ entre user et machine 
-  if [ $# -eq 3 ]; then
+  # TODO : add un spliter pour mettre @ entre user et machine
+  if [ $# -ge 2 ]; then
+  usr=$1
     for ((w=0; w<=$(jq 'length' env/account.json); w++))
     do 
       userCheck=$(jq '.['$w'].name' env/account.json)
         if [ "${userCheck:1:-1}" == "$1" ]; then
-          for ((j=0; j<=$(jq '.['$w'].permissions | length' env/account.json); j++))
-          do
-            permCheck=$(jq '.['$w'].permissions['$j']' env/account.json)
-            if [ "${permCheck:1:-1}" = "$2" ]; then 
-              jq --arg message "$3" '.['$w'].message |= . + [$message]' env/account.json > env/temp.json && mv env/temp.json env/account.json
-              echo "Le message $3 a bien été envoyé à $1 sur la machine $2"
-            fi
-          done
+          shift 1
+          msg=$@
+          jq --arg message "$msg" '.['$w'].message |= . + [$message]' env/account.json > env/temp.json && mv env/temp.json env/account.json
+          echo "Le message "$msg" a bien été envoyé à $usr"
         fi
     done
   else 
-    echo "Use the command 'write' with a message, like 'write user machine_name message' "
+    echo "Use the command 'write' with a message, like 'write user message' "
   fi
 }
 

@@ -17,7 +17,12 @@
       "machine1",
       "machine2"
     ],
-    "message": [],
+    "message": [
+      "loool",
+      "2e",
+      "5e test",
+      "test final pour vérifier que tout marche bien"
+    ],
     "isConnected": "machine1",
     "lastConnected": "02-01-2023 21:37:14"
   },
@@ -30,6 +35,6 @@
     ],
     "message": [],
     "isConnected": "machine1",
-    "lastConnected": "02-01-2023 21:37:32"
+    "lastConnected": "03-01-2023 10:14:56"
   }
 ]
