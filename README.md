@@ -22,13 +22,3 @@ Options:
 
 Don't hesitate to use the command `help` to see commands and options specifically created
 
-
-# TODO
-
-- admin.sh: 
-	-> host: admin permissions for all hosts created
-	-> user: jq requests, structure of user options
-	-> wall TODO
-	-> afinger: jq requests, structure
-
-
